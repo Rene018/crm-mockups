@@ -105,7 +105,7 @@ function renderSidebar(activeItem = 'dashboard', role = 'ejecutivo') {
       user: { name: 'Diana Ruiz', role: 'Coordinador', initial: 'DR' },
       items: [
         { id: 'dashboard', label: 'Panel seguimiento', icon: 'home', route: '01-dashboard.html' },
-        { id: 'alertas', label: 'Alertas activas', icon: 'bell', route: '01-dashboard.html' },
+        { id: 'alertas', label: 'Alertas activas', icon: 'bell', route: '08-alertas.html' },
         { id: 'variables', label: 'Variables sistema', icon: 'adjustments', route: '02-variables-sistema.html' },
         { id: 'monitoreo', label: 'Monitoreo ejecutivos', icon: 'view', route: '03-monitoreo-mapa-notif.html' },
         { id: 'estancados', label: 'Leads/Opp estancados', icon: 'clock', route: '05-estancados.html' },

@@ -441,8 +441,58 @@ function content() {
             <div class="card__subtitle">Top 10 oportunidades que más impactan la proyección · Ordenadas por valor × probabilidad</div>
           </div>
           <div style="display: flex; gap: 6px;">
-            <button class="btn btn--ghost btn--sm">${Icons.filter} Filtros</button>
+            <button class="btn btn--ghost btn--sm" onclick="toggleFiltrosForecast()">${Icons.filter} Filtros</button>
             <button class="btn btn--ghost btn--sm">${Icons.download}</button>
+          </div>
+        </div>
+        <div id="filtros-forecast-panel" class="card" style="display: none; margin-bottom: 16px; padding: 16px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;">
+            <div class="form-field" style="min-width: 160px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Sector</label>
+              <select class="select" style="max-width: 160px;">
+                <option>Todos los sectores</option>
+                <option>Agua Potable</option>
+                <option>Gas Natural</option>
+                <option>Agro / Riego</option>
+                <option>Construcción</option>
+                <option>Industria</option>
+              </select>
+            </div>
+            <div class="form-field" style="min-width: 160px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Ejecutivo</label>
+              <select class="select" style="max-width: 160px;">
+                <option>Todos</option>
+                <option>María García</option>
+                <option>Juan Pérez</option>
+                <option>Ana Martínez</option>
+                <option>Laura Jiménez</option>
+                <option>Carlos Rodríguez</option>
+                <option>Pedro Salazar</option>
+              </select>
+            </div>
+            <div class="form-field" style="min-width: 160px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Probabilidad</label>
+              <select class="select" style="max-width: 160px;">
+                <option>Todas</option>
+                <option>90-100%</option>
+                <option>70-89%</option>
+                <option>50-69%</option>
+                <option>30-49%</option>
+                <option>&lt; 30%</option>
+              </select>
+            </div>
+            <div class="form-field" style="min-width: 140px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Valor mínimo</label>
+              <input class="input" placeholder="$ 0 M" style="max-width: 140px;" />
+            </div>
+            <div class="form-field" style="min-width: 140px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Cierre hasta</label>
+              <input class="input" type="date" style="max-width: 160px;" />
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn--primary btn--sm">${Icons.check} Aplicar</button>
+              <button class="btn btn--secondary btn--sm" onclick="toggleFiltrosForecast()">${Icons.close} Cerrar</button>
+            </div>
           </div>
         </div>
         <div>
@@ -490,7 +540,7 @@ function content() {
                 </div>
                 <div style="text-align: right; font-weight: 800; color: var(--accent);">$ ${ponderado} M</div>
                 <div style="font-size: 12px; color: var(--text-muted);">${o.cierre}</div>
-                <div><button class="table__action">${Icons.view}</button></div>
+                <div><a href="07-oportunidad-detalle.html" style="text-decoration: none; color: inherit;"><button class="table__action">${Icons.view}</button></a></div>
               </div>
             `;
           }).join('')}
@@ -574,6 +624,13 @@ document.getElementById('shell').innerHTML = `
     ${content()}
   </div>
 `;
+function toggleFiltrosForecast() {
+  const panel = document.getElementById('filtros-forecast-panel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+function openOppDetalle() {
+  window.location.href = '07-oportunidad-detalle.html';
+}
 </script>
 </body>
 </html>

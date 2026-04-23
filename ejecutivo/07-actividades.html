@@ -159,19 +159,21 @@ const actividades = [
 
 function activityRow(a) {
   return `
-    <div class="activity-row">
-      <div class="activity-row__icon activity-row__icon--${a.iconClass}">${Icons[a.icon]}</div>
-      <div style="flex:1; min-width: 0;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
-          <span style="font-size: 14px; font-weight: 600; color: var(--text-primary);">${a.titulo}</span>
+    <a href="18-actividad-detalle.html" style="text-decoration: none; color: inherit;">
+      <div class="activity-row">
+        <div class="activity-row__icon activity-row__icon--${a.iconClass}">${Icons[a.icon]}</div>
+        <div style="flex:1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+            <span style="font-size: 14px; font-weight: 600; color: var(--text-primary);">${a.titulo}</span>
+          </div>
+          <div style="font-size: 12.5px; color: var(--text-muted);">${a.sub}</div>
         </div>
-        <div style="font-size: 12.5px; color: var(--text-muted);">${a.sub}</div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0;">
+          <span class="badge badge--${a.badge}"><span class="dot"></span> ${a.badgeText}</span>
+          <span style="font-size: 12px; color: var(--text-muted);">${a.day} · ${a.date}</span>
+        </div>
       </div>
-      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0;">
-        <span class="badge badge--${a.badge}"><span class="dot"></span> ${a.badgeText}</span>
-        <span style="font-size: 12px; color: var(--text-muted);">${a.day} · ${a.date}</span>
-      </div>
-    </div>
+    </a>
   `;
 }
 

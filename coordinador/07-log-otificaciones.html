@@ -79,17 +79,86 @@
   }
   .compliance-mini::before { content: ''; position: absolute; inset: 3px; background: #fff; border-radius: 50%; }
   .compliance-mini > span { position: relative; z-index: 1; }
+  .modal-overlay {
+    position: absolute; inset: 0;
+    background: rgba(26,26,26,0.5);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 60px 24px;
+    z-index: 100;
+  }
+  .modal-content {
+    background: var(--surface);
+    border-radius: 12px;
+    max-width: 520px; width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+  .modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-body { padding: 20px 24px; }
+  .modal-footer {
+    padding: 16px 24px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px;
+    background: var(--page-bg);
+  }
 </style>
 </head>
 <body>
 <div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
   <div class="canvas" style="width: 1440px;">
-    <div class="app-shell" id="shell"></div>
+    <div style="height: 900px; position: relative;">
+      <div class="app-shell" id="shell"></div>
+      <div id="modal-root"></div>
+    </div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
+window.modalRoot = document.getElementById('modal-root');
+
+function verDetalleModal(notif) {
+  modalRoot.innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div style="display:flex;align-items:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:var(--primary-bg);color:var(--primary);display:flex;align-items:center;justify-content:center;margin-right:12px;">${Icons[notif.icon]}</div>
+            <div>
+              <div style="font-weight:700;font-size:16px;">${notif.title}</div>
+              <div style="font-size:12.5px;color:var(--text-muted);">${notif.time}</div>
+            </div>
+          </div>
+          <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
+        </div>
+        <div class="modal-body">
+          <dl class="detail-info-list" style="margin-bottom:16px;">
+            <dt>Destinatario</dt><dd>${notif.to}</dd>
+            <dt>Canal</dt><dd>${notif.via}</dd>
+            <dt>Estado</dt><dd><span class="badge badge--${notif.tipo === 'error' ? 'perdida' : notif.tipo === 'warning' ? 'calificacion' : 'info'}">${notif.tipo}</span></dd>
+            <dt>Fecha</dt><dd>${notif.time}</dd>
+          </dl>
+          <div style="background:var(--page-bg);border:1px solid var(--border);border-radius:8px;padding:14px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Contenido del mensaje</div>
+            <div style="font-size:13.5px;color:var(--text-primary);">${notif.subtitle}</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--secondary" onclick="closeModal()">Cerrar</button>
+          <button class="btn btn--primary">${Icons.send} Reenviar notificación</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function closeModal() {
+  modalRoot.innerHTML = '';
+}
+
 function notifContent() {
   const notificaciones = [
     { tipo: 'error', icon: 'warning', title: 'Alerta: Lead estancado', subtitle: 'Lead "Proyecto acueducto EMPAS" sin contactar hace 5 días', to: 'Juan Pérez', via: 'Email', time: 'Hace 5 min', canal: 'email' },
@@ -110,7 +179,7 @@ function notifContent() {
           <div class="page-head__subtitle">${notificaciones.length} notificaciones recientes · Últimas 48h</div>
         </div>
         <div class="page-head__actions">
-          <button class="btn btn--secondary btn--sm">${Icons.adjustments} Configurar alertas</button>
+          <a href="02-variables-sistema.html" style="text-decoration: none;"><button class="btn btn--secondary btn--sm">${Icons.adjustments} Configurar alertas</button></a>
           <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
         </div>
       </div>
@@ -166,7 +235,7 @@ function notifContent() {
                 Para: <strong style="color: var(--text-secondary);">${n.to}</strong> · ${n.time}
               </div>
             </div>
-            <button class="btn btn--ghost btn--sm">${Icons.view}</button>
+            <button class="btn btn--ghost btn--sm" onclick='verDetalleModal(${JSON.stringify(n).replace(/'/g, "\\'")})'>${Icons.view}</button>
           </div>
         `).join('')}
       </div>

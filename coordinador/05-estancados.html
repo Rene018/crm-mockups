@@ -23,17 +23,179 @@
   }
   .dias-badge--danger { background: var(--error-bg); color: var(--error); }
   .dias-badge--warning { background: #FFF8E5; color: #B87E15; }
+
+  .modal-overlay {
+    position: absolute; inset: 0;
+    background: rgba(26,26,26,0.5);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 60px 24px;
+    z-index: 100;
+  }
+  .modal-content {
+    background: var(--surface);
+    border-radius: 12px;
+    max-width: 520px; width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+  .modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-header__icon {
+    width: 40px; height: 40px;
+    background: var(--error-bg); color: var(--error);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    margin-right: 12px;
+  }
+  .modal-header__icon--accent { background: var(--accent-bg); color: #C7770D; }
+  .modal-header__icon--success { background: var(--success-bg); color: var(--success); }
+  .modal-body { padding: 20px 24px; }
+  .modal-footer {
+    padding: 16px 24px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px;
+    background: var(--page-bg);
+  }
 </style>
 </head>
 <body>
 <div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
   <div class="canvas" style="width: 1440px;">
-    <div class="app-shell" id="shell"></div>
+    <div style="height: 900px; position: relative;">
+      <div class="app-shell" id="shell"></div>
+      <div id="modal-root"></div>
+    </div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
+function notificarModal(registro) {
+  return `
+    <div class="modal-overlay" id="modal-notificar">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center;">
+            <div class="modal-header__icon">${Icons.bell}</div>
+            <div>
+              <div style="font-weight: 700; font-size: 16px;">Notificar ejecutivo</div>
+              <div style="font-size: 12.5px; color: var(--text-muted);">Enviar alerta inmediata por email y push</div>
+            </div>
+          </div>
+          <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
+        </div>
+        <div class="modal-body">
+          <div style="background: var(--page-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+            <div style="font-weight: 700; color: var(--text-primary);">${registro.title}</div>
+            <div style="font-size: 12px; color: var(--text-muted);">${registro.empresa} · Asignado a: ${registro.ejec}</div>
+            <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+              <span class="badge badge--${registro.badge}"><span class="dot"></span>${registro.estado}</span>
+              <span class="dias-badge dias-badge--${registro.priority}">${Icons.clock.replace('class="icon"','class="icon icon--xs"')} ${registro.dias} días sin actividad</span>
+            </div>
+          </div>
+          <div class="form-field" style="margin-bottom: 12px;">
+            <label class="form-field__label">Tipo de alerta</label>
+            <select class="select">
+              <option>Alerta estándar</option>
+              <option>Recordatorio urgente</option>
+              <option>Escalamiento al director</option>
+            </select>
+          </div>
+          <div class="form-field" style="margin-bottom: 12px;">
+            <label class="form-field__label">Mensaje personalizado</label>
+            <textarea class="textarea" style="min-height: 80px;" placeholder="Agrega un mensaje adicional para el ejecutivo..."></textarea>
+          </div>
+          <div class="form-field">
+            <label class="form-field__label">Canales</label>
+            <div style="display: flex; gap: 12px; margin-top: 4px;">
+              <label class="checkbox"><input type="checkbox" checked disabled /> <span style="color: var(--text-disabled);">Email</span></label>
+              <label class="checkbox"><input type="checkbox" checked /> Push</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn--primary">${Icons.send} Enviar notificación</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function reasignarModal(registro) {
+  return `
+    <div class="modal-overlay" id="modal-reasignar">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center;">
+            <div class="modal-header__icon modal-header__icon--accent">${Icons.users}</div>
+            <div>
+              <div style="font-weight: 700; font-size: 16px;">Reasignar registro</div>
+              <div style="font-size: 12.5px; color: var(--text-muted);">Cambiar ejecutivo asignado</div>
+            </div>
+          </div>
+          <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
+        </div>
+        <div class="modal-body">
+          <div style="background: var(--page-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+            <div style="font-weight: 700; color: var(--text-primary);">${registro.title}</div>
+            <div style="font-size: 12px; color: var(--text-muted);">${registro.empresa}</div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div class="form-field">
+              <label class="form-field__label">Ejecutivo actual</label>
+              <div style="display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--page-bg); border: 1px solid var(--border); border-radius: 6px;">
+                <div class="avatar avatar--xs avatar--color-${registro.color}">${registro.ejec.split(' ').map(x=>x[0]).join('').slice(0,2)}</div>
+                <span style="font-weight: 600; color: var(--text-secondary);">${registro.ejec}</span>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Nuevo ejecutivo <span class="req">*</span></label>
+              <select class="select">
+                <option value="">Seleccionar...</option>
+                <option>Juan Pérez (JP)</option>
+                <option>María García (MG)</option>
+                <option>Carlos Rodríguez (CR)</option>
+                <option>Ana Martínez (AM)</option>
+                <option>Laura Jiménez (LJ)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-field__label">Motivo de reasignación</label>
+            <select class="select">
+              <option> Redistribución de cartera</option>
+              <option> Ejecutivo en periodo de ausencia</option>
+              <option> Bajo rendimiento del ejecutivo</option>
+              <option> Solicitud del ejecutivo</option>
+              <option> Otro</option>
+            </select>
+          </div>
+          <div class="alert alert--warning" style="margin-top: 12px;">
+            ${Icons.warning}
+            <div>Se notificará al nuevo ejecutivo y se dejará registro del cambio en el historial.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn--primary">${Icons.check} Confirmar reasignación</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.openNotificar = function(registro) {
+  document.getElementById('modal-root').innerHTML = notificarModal(registro);
+};
+window.openReasignar = function(registro) {
+  document.getElementById('modal-root').innerHTML = reasignarModal(registro);
+};
+window.closeModal = function() {
+  document.getElementById('modal-root').innerHTML = '';
+};
+
 function content() {
   const leadsEstancados = [
     { type: 'LEAD', id: 'LEAD-234', title: 'Consulta portafolio riego', empresa: 'Agroindustria Llanera', ejec: 'Juan Pérez', color: 1, estado: 'Contactado', badge: 'propuesta', dias: 5, umbral: 3, priority: 'danger' },
@@ -137,8 +299,8 @@ function content() {
               <div style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px;">Umbral: ${r.umbral}d</div>
             </div>
             <div style="text-align: right; display: flex; gap: 4px; justify-content: flex-end;">
-              <button class="btn btn--ghost btn--sm" title="Notificar">${Icons.bell}</button>
-              <button class="btn btn--ghost btn--sm" title="Reasignar">${Icons.users}</button>
+              <button class="btn btn--ghost btn--sm" title="Notificar" onclick='openNotificar(${JSON.stringify(r).replace(/'/g, "\\'")})'>${Icons.bell}</button>
+              <button class="btn btn--ghost btn--sm" title="Reasignar" onclick='openReasignar(${JSON.stringify(r).replace(/'/g, "\\'")})'>${Icons.users}</button>
               <a href="../ejecutivo/04-oportunidad-detalle.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
                 <button class="btn btn--ghost btn--sm" title="Ver">${Icons.chevronRight}</button>
               </a>

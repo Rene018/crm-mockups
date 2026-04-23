@@ -89,7 +89,56 @@ function content() {
             <div class="card__subtitle">65 oportunidades · vista consolidada</div>
           </div>
           <div style="display: flex; gap: 6px;">
-            <button class="btn btn--secondary btn--sm">${Icons.filter} Filtros</button>
+            <button class="btn btn--secondary btn--sm" onclick="toggleFiltros()">${Icons.filter} Filtros</button>
+          </div>
+        </div>
+        <div id="filtros-panel" class="card" style="display: none; margin-bottom: 16px; padding: 16px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;">
+            <div class="form-field" style="min-width: 160px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Estado</label>
+              <select class="select" style="max-width: 160px;">
+                <option>Todos los estados</option>
+                <option>Prospección</option>
+                <option>Calificación</option>
+                <option>Propuesta</option>
+                <option>Negociación</option>
+              </select>
+            </div>
+            <div class="form-field" style="min-width: 160px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Ejecutivo</label>
+              <select class="select" style="max-width: 160px;">
+                <option>Todos</option>
+                <option>María García</option>
+                <option>Juan Pérez</option>
+                <option>Ana Martínez</option>
+                <option>Laura Jiménez</option>
+                <option>Carlos Rodríguez</option>
+                <option>Pedro Salazar</option>
+              </select>
+            </div>
+            <div class="form-field" style="min-width: 160px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Sector</label>
+              <select class="select" style="max-width: 160px;">
+                <option>Todos los sectores</option>
+                <option>Agua Potable</option>
+                <option>Gas Natural</option>
+                <option>Agro / Riego</option>
+                <option>Construcción</option>
+                <option>Industria</option>
+              </select>
+            </div>
+            <div class="form-field" style="min-width: 140px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Valor mínimo</label>
+              <input class="input" placeholder="$ 0 M" style="max-width: 140px;" />
+            </div>
+            <div class="form-field" style="min-width: 140px; margin-bottom: 0;">
+              <label class="form-field__label" style="font-size: 11px;">Valor máximo</label>
+              <input class="input" placeholder="$ 1.000 M" style="max-width: 140px;" />
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn--primary btn--sm">${Icons.check} Aplicar</button>
+              <button class="btn btn--secondary btn--sm" onclick="toggleFiltros()">${Icons.close} Cerrar</button>
+            </div>
           </div>
         </div>
         <div class="table-wrapper">
@@ -119,7 +168,11 @@ function content() {
                 { op: 'Tubería industrial', emp: 'Ecopetrol', exec: 'CR', execName: 'Carlos R.', color: 5, estado: 'calificacion', estadoL: 'Calificación', valor: '$ 215 M', prob: '50%', cierre: '30 Jun' },
               ].map(r => `
                 <tr>
-                  <td><div style="font-weight: 600; color: var(--text-primary);">${r.op}</div></td>
+                  <td>
+                    <a href="07-oportunidad-detalle.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
+                      <div style="font-weight: 600; color: var(--text-primary);">${r.op}</div>
+                    </a>
+                  </td>
                   <td style="color: var(--text-muted);">${r.emp}</td>
                   <td>
                     <div style="display: flex; align-items: center; gap: 8px;">
@@ -148,6 +201,10 @@ document.getElementById('shell').innerHTML = `
     ${content()}
   </div>
 `;
+function toggleFiltros() {
+  const panel = document.getElementById('filtros-panel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
 </script>
 </body>
 </html>

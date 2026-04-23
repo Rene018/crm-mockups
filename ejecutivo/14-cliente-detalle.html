@@ -20,6 +20,257 @@
 
 <script src="../shared/components.js"></script>
 <script>
+window.modalRoot = document.getElementById('shell');
+
+function openModal(html) { modalRoot.innerHTML += html; }
+function closeModal() {
+  const overlays = document.querySelectorAll('.modal-overlay');
+  if (overlays.length > 0) overlays[overlays.length - 1].remove();
+}
+
+function editarClienteModal() {
+  return `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-content" style="max-width: 580px;">
+        <div class="modal-header">
+          <div class="modal-header__icon" style="background: var(--primary-bg); color: var(--primary);">${Icons.pencil}</div>
+          <div>
+            <div style="font-weight: 700; font-size: 16px;">Editar cliente</div>
+            <div style="font-size: 12.5px; color: var(--text-muted);">EMPAS S.A.</div>
+          </div>
+          <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
+        </div>
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Tipo de documento</label>
+              <select class="select">
+                <option selected>NIT</option>
+                <option>Cédula de ciudadanía</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Número de documento</label>
+              <input class="input" value="890.200.341-2" />
+            </div>
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label class="form-field__label">Nombre / Razón social</label>
+            <input class="input" value="EMPAS S.A." />
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label class="form-field__label">Nombre comercial</label>
+            <input class="input" value="EMPAS S.A." />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Sector</label>
+              <select class="select">
+                <option selected>Agua Potable</option>
+                <option>Gas Natural</option>
+                <option>Agro / Riego</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Estado</label>
+              <select class="select">
+                <option selected>Activo</option>
+                <option>Inactivo</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Departamento</label>
+              <input class="input" value="Santander" />
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Municipio</label>
+              <input class="input" value="Piedecuesta" />
+            </div>
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label class="form-field__label">Dirección</label>
+            <input class="input" placeholder="Dirección comercial" />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-field">
+              <label class="form-field__label">Teléfono</label>
+              <input class="input" value="+57 607 655 8842" />
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Email</label>
+              <input class="input" type="email" value="contacto@empas.gov.co" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn--primary" onclick="closeModal()">${Icons.check} Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function nuevoClienteModal() {
+  return `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-content" style="max-width: 580px;">
+        <div class="modal-header">
+          <div class="modal-header__icon" style="background: var(--primary-bg); color: var(--primary);">${Icons.user}</div>
+          <div>
+            <div style="font-weight: 700; font-size: 16px;">Nuevo cliente</div>
+            <div style="font-size: 12.5px; color: var(--text-muted);">Registra un nuevo cliente en el sistema</div>
+          </div>
+          <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
+        </div>
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Tipo de documento <span class="req">*</span></label>
+              <select class="select">
+                <option selected>NIT</option>
+                <option>Cédula de ciudadanía</option>
+                <option>Cédula de extrangería</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Número de documento <span class="req">*</span></label>
+              <input class="input" placeholder="Ej: 890.200.341-2" />
+            </div>
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label class="form-field__label">Nombre / Razón social <span class="req">*</span></label>
+            <input class="input" placeholder="Nombre de la empresa o persona" />
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label class="form-field__label">Nombre comercial</label>
+            <input class="input" placeholder="Nombre comercial (opcional)" />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Sector <span class="req">*</span></label>
+              <select class="select">
+                <option>Agua Potable</option>
+                <option>Gas Natural</option>
+                <option>Agro / Riego</option>
+                <option>Construcción</option>
+                <option>Industrial</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">País</label>
+              <select class="select">
+                <option selected>Colombia</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Departamento</label>
+              <input class="input" placeholder="Ej: Santander" />
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Municipio</label>
+              <input class="input" placeholder="Ej: Bucaramanga" />
+            </div>
+          </div>
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label class="form-field__label">Dirección</label>
+            <input class="input" placeholder="Dirección comercial" />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-field">
+              <label class="form-field__label">Teléfono</label>
+              <input class="input" placeholder="+57 XXX XXX XXXX" />
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Email</label>
+              <input class="input" type="email" placeholder="contacto@empresa.com" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn--primary" onclick="closeModal()">${Icons.check} Crear cliente</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function agregarContactoModal() {
+  return `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-content" style="max-width: 520px;">
+        <div class="modal-header">
+          <div class="modal-header__icon" style="background: var(--primary-bg); color: var(--primary);">${Icons.userCircle}</div>
+          <div>
+            <div style="font-weight: 700; font-size: 16px;">Agregar contacto</div>
+            <div style="font-size: 12.5px; color: var(--text-muted);">Nuevo contacto para EMPAS S.A.</div>
+          </div>
+          <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-field" style="margin-bottom: 14px;">
+            <label class="form-field__label">Nombre completo <span class="req">*</span></label>
+            <input class="input" placeholder="Nombre y apellido" />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Cargo</label>
+              <input class="input" placeholder="Ej: Gerente de Compras" />
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Área / Departamento</label>
+              <input class="input" placeholder="Ej: Compras" />
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Teléfono</label>
+              <input class="input" placeholder="+57 XXX XXX XXXX" />
+            </div>
+            <div class="form-field">
+              <label class="form-field__label">Email <span class="req">*</span></label>
+              <input class="input" type="email" placeholder="nombre@empresa.com" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-field__label">¿Es contacto principal?</label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: var(--text-secondary);">
+              <input type="checkbox" style="width: 16px; height: 16px;" />
+              Marcar como contacto principal del cliente
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn--primary" onclick="closeModal()">${Icons.check} Agregar contacto</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function contactOptionsModal() {
+  return `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-content" style="max-width: 360px;">
+        <div class="modal-body" style="padding: 12px;">
+          <button class="dropdown-item" onclick="closeModal()">${Icons.pencil} Editar contacto</button>
+          <button class="dropdown-item" onclick="closeModal()">${Icons.envelope} Enviar email</button>
+          <button class="dropdown-item" onclick="closeModal()">${Icons.phone} Llamar</button>
+          <div style="border-top: 1px solid var(--border); margin: 8px 0;"></div>
+          <button class="dropdown-item" style="color: var(--error);" onclick="closeModal()">${Icons.trash} Eliminar contacto</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 const clientes = [
   { name: 'EMPAS S.A.', company: 'Empresa Pública de Alcantarillado', sector: 'Agua Potable', badge: 'info', city: 'Piedecuesta', phone: '+57 607 655 8842', email: 'contacto@empas.gov.co', registered: '12 Ene 2024', avatar: 'ES', color: 1, recurrente: true },
   { name: 'Tecnoagua SAS', company: 'Tecnologías del Agua SAS', sector: 'Agua Potable', badge: 'info', city: 'Bucaramanga', phone: '+57 310 555 2201', email: 'ventas@tecnoagua.co', registered: '05 Feb 2024', avatar: 'TA', color: 2, recurrente: false },
@@ -79,10 +330,10 @@ function detailContent() {
               <a style="color: var(--primary); font-size: 12px; display: inline-flex; align-items: center; gap: 3px;">${Icons.envelope.replace('icon"','icon icon--xs"')} ${c.email}</a>
             </div>
           </div>
-          <button class="topbar__icon-btn">${Icons.dots}</button>
+          <button class="topbar__icon-btn" onclick="openModal(contactOptionsModal())">${Icons.dots}</button>
         </div>
       `).join('')}
-      <button class="btn btn--secondary btn--block" style="border-style: dashed;">${Icons.plus} Agregar contacto</button>
+      <button class="btn btn--secondary btn--block" style="border-style: dashed;" onclick="openModal(agregarContactoModal())">${Icons.plus} Agregar contacto</button>
     </div>
   `;
 
@@ -148,7 +399,7 @@ function detailContent() {
           </div>
         </div>
         <div style="display: flex; gap: 8px;">
-          <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
+          <button class="btn btn--secondary btn--sm" onclick="openModal(editarClienteModal())">${Icons.pencil} Editar</button>
           <a href="05-oportunidad-form.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
           <button class="btn btn--primary btn--sm">${Icons.plus} Nueva oportunidad</button>
           </a>
@@ -194,7 +445,7 @@ function detailContent() {
           <div>
             <div class="card__title">Información general</div>
           </div>
-          <button class="btn btn--ghost btn--sm">${Icons.pencil} Editar</button>
+          <button class="btn btn--ghost btn--sm" onclick="openModal(editarClienteModal())">${Icons.pencil} Editar</button>
         </div>
         <div class="card__body">
           <dl class="detail-info-list" style="grid-template-columns: 160px 1fr;">

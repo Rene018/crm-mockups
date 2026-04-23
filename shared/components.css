@@ -1459,3 +1459,14 @@
 .is-tablet .sidebar__user { justify-content: center; padding: var(--space-3) 0; }
 .is-tablet .sidebar__nav-item { justify-content: center; padding: 10px; }
 .is-tablet .sidebar__logout { justify-content: center; }
+
+.modal-header__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 12px;
+}

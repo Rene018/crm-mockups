@@ -39,6 +39,57 @@
 
 <script src="../shared/components.js"></script>
 <script>
+window.modalRoot = document.getElementById('shell');
+function openModal(html) { modalRoot.innerHTML += html; }
+function closeModal() {
+  const overlays = document.querySelectorAll('.modal-overlay');
+  if (overlays.length > 0) overlays[overlays.length - 1].remove();
+}
+
+function buscarProductoModal() {
+  return `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-header__icon" style="background: var(--primary-bg); color: var(--primary);">${Icons.archive}</div>
+          <div>
+            <div style="font-weight: 700; font-size: 16px;">Buscar producto</div>
+            <div style="font-size: 12.5px; color: var(--text-muted);">Busca por nombre, tipo o referencia</div>
+          </div>
+          <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
+        </div>
+        <div class="modal-body">
+          <div class="input-wrapper" style="margin-bottom: 14px;">
+            ${Icons.search}
+            <input class="input input--with-icon" placeholder="Buscar por nombre, tipo o referencia..." />
+          </div>
+          <div style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;">Productos disponibles</div>
+          ${[
+            { nombre: 'Tubería PE100 SDR 11 - 4"', tipo: 'Tubería', presion: '16 bar', ref: 'PE100-SDR11-4' },
+            { nombre: 'Tubería PE100 SDR 17 - 6"', tipo: 'Tubería', presion: '10 bar', ref: 'PE100-SDR17-6' },
+            { nombre: 'Accesorios electrofusión 4"', tipo: 'Accesorio', presion: '16 bar', ref: 'EF-4IN' },
+            { nombre: 'Válvula de compuerta 4" AWWA', tipo: 'Válvula', presion: '16 bar', ref: 'VC-AWWA-4' },
+            { nombre: 'Codo 90° PE100 4"', tipo: 'Accesorio', presion: '16 bar', ref: 'CODO-90-4' },
+          ].map(p => `
+            <div style="display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer;" onclick="this.style.borderColor='var(--primary)';this.style.background='var(--primary-bg)'">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--primary-bg); color: var(--primary); display: flex; align-items: center; justify-content: center;">${Icons.archive}</div>
+              <div style="flex:1;">
+                <div style="font-weight: 600; font-size: 13px; color: var(--text-primary);">${p.nombre}</div>
+                <div style="font-size: 11.5px; color: var(--text-muted);">${p.tipo} · ${p.presion} · ${p.ref}</div>
+              </div>
+              <button class="topbar__icon-btn" style="color: var(--primary);">${Icons.plus}</button>
+            </div>
+          `).join('')}
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--secondary" onclick="closeModal()">Cerrar</button>
+          <button class="btn btn--primary" onclick="closeModal()">${Icons.check} Agregar seleccionados</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function content() {
   const formHTML = `
     <div class="form-card">
@@ -150,13 +201,13 @@ function content() {
             </div>
             <button class="topbar__icon-btn" style="color: var(--error);">${Icons.trash}</button>
           </div>
-          <button class="btn btn--secondary btn--block" style="border-style: dashed;">${Icons.plus} Agregar producto</button>
+          <button class="btn btn--secondary btn--block" style="border-style: dashed;" onclick="openModal(buscarProductoModal())">${Icons.plus} Agregar producto</button>
         </div>
       </div>
 
       <div class="form-section" style="background: var(--page-bg);">
         <div class="form-actions" style="border-top: none; padding-top: 0; margin-top: 0;">
-          <button class="btn btn--secondary">Cancelar</button>
+          <a href="02-oportunidades-kanban.html" style="text-decoration: none;"><button class="btn btn--secondary">Cancelar</button></a>
           <button class="btn btn--primary">${Icons.check} Guardar oportunidad</button>
         </div>
       </div>

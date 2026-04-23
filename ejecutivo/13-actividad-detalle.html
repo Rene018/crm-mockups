@@ -187,6 +187,9 @@ function gpsContent() {
       </div>
 
       <div style="max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px;">
+
+        <div style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Datos de la actividad</div>
+
         <div class="card">
           <div class="card__body">
             <label class="form-field__label" style="margin-bottom: 10px; display: block;">Tipo de actividad</label>
@@ -212,9 +215,62 @@ function gpsContent() {
         </div>
 
         <div class="card">
+          <div class="card__body" style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="form-field">
+              <label class="form-field__label">Asunto <span class="req">*</span></label>
+              <input class="input" value="Inspección técnica para dimensionamiento" />
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+              <div class="form-field">
+                <label class="form-field__label">Fecha</label>
+                <input class="input" type="date" value="2026-04-22" />
+              </div>
+              <div class="form-field">
+                <label class="form-field__label">Hora</label>
+                <input class="input" type="time" value="10:30" />
+              </div>
+              <div class="form-field">
+                <label class="form-field__label">¿Virtual?</label>
+                <select class="select">
+                  <option selected>Presencial</option>
+                  <option>Virtual</option>
+                </select>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div class="form-field">
+                <label class="form-field__label">Relacionado con <span class="req">*</span></label>
+                <select class="select">
+                  <option selected>Oportunidad</option>
+                  <option>Lead</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-field__label">Buscar oportunidad</label>
+                <select class="select">
+                  <option selected>OPP-2025-0042 - Proyecto acueducto rural</option>
+                  <option>OPP-2025-0038 - Suministro anual</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field" style="margin-bottom: 0;">
+              <label class="form-field__label">Descripción</label>
+              <textarea class="textarea" rows="3" placeholder="Describe brevemente los detalles...">Reunión con ingeniero residente y director técnico. Se revisaron especificaciones de la red, se acordó enviar propuesta revisada.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div style="height: 1px; background: var(--border); margin: 4px 0;"></div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Resultado y ubicación</div>
+          <span style="font-size: 11px; color: var(--text-disabled);">Completado · Hoy 10:30 AM</span>
+        </div>
+
+        <div class="card">
           <div class="card__header">
             <div>
-              <div class="card__title">Ubicación actual</div>
+              <div class="card__title">Ubicación</div>
               <div class="card__subtitle">GPS activo · Precisión ±8m</div>
             </div>
             <span class="badge badge--ganada"><span class="dot"></span> Conectado</span>
@@ -237,35 +293,8 @@ function gpsContent() {
         </div>
 
         <div class="card">
-          <div class="card__header">
-            <div class="card__title">Información de la visita</div>
-          </div>
-          <div class="card__body" style="display: flex; flex-direction: column; gap: 14px;">
-            <div class="form-field">
-              <label class="form-field__label">Asunto <span class="req">*</span></label>
-              <input class="input" value="Inspección técnica para dimensionamiento" />
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-              <div class="form-field">
-                <label class="form-field__label">Relacionado con <span class="req">*</span></label>
-                <select class="select">
-                  <option>Oportunidad</option>
-                  <option>Lead</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label class="form-field__label">Buscar oportunidad</label>
-                <select class="select">
-                  <option>OPP-2025-0042 - Proyecto acueducto rural</option>
-                  <option>OPP-2025-0038 - Suministro anual</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-field__label">Descripción</label>
-              <textarea class="textarea" rows="3" placeholder="Describe brevemente los detalles...">Reunión con ingeniero residente y director técnico. Se revisaron especificaciones de la red, se acordó enviar propuesta revisada.</textarea>
-            </div>
-            <div class="form-field">
+          <div class="card__body">
+            <div class="form-field" style="margin-bottom: 0;">
               <label class="form-field__label">Resultado</label>
               <textarea class="textarea" rows="2" placeholder="Qué se logró o acordó...">Acuerdo de entregar propuesta comercial actualizada antes del 25 de marzo.</textarea>
             </div>
@@ -273,7 +302,7 @@ function gpsContent() {
         </div>
 
         <div style="display: flex; gap: 10px;">
-          <button class="btn btn--secondary btn--block">Cancelar</button>
+          <a href="07-actividades.html" style="text-decoration: none;"><button class="btn btn--secondary btn--block">Cancelar</button></a>
           <button class="btn btn--primary btn--block">${Icons.check} Registrar visita</button>
         </div>
       </div>

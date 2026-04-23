@@ -97,6 +97,32 @@ function content() {
         <div style="font-weight:600; color: var(--error); font-size: 13.5px;">Lead estancado 5 días</div>
         <div style="font-size: 12px; color: #8a2a1d;">"Proyecto acueducto rural EMPAS" — asignado a Juan Pérez · Estado: Contactado</div>
       </div>
+      <a href="05-estancados.html" style="text-decoration: none;"><button class="btn btn--sm" style="background: var(--error); color: #fff;">Revisar</button></a>
+    </div>
+    <div class="alert-row">
+      ${Icons.warning}
+      <div style="flex:1;">
+        <div style="font-weight:600; color: var(--error); font-size: 13.5px;">Oportunidad sin actividad 7 días</div>
+        <div style="font-size: 12px; color: #8a2a1d;">"Suministro anual Constructora Andina" — María G. · Estado: negociación</div>
+      </div>
+      <a href="05-estancados.html" style="text-decoration: none;"><button class="btn btn--sm" style="background: var(--error); color: #fff;">Revisar</button></a>
+    </div>
+    <div class="alert-row is-warning">
+      ${Icons.clock}
+      <div style="flex:1;">
+        <div style="font-weight:600; color: #B87E15; font-size: 13.5px;">3 leads sin contactar hace 2 días</div>
+        <div style="font-size: 12px; color: #8a5c0e;">Ejecutivos: Carlos R. (2), Ana M. (1)</div>
+      </div>
+      <a href="../ejecutivo/03-leads-kanban.html" style="text-decoration: none; color: inherit;"><button class="btn btn--sm btn--secondary">Ver detalle</button></a>
+    </div>
+    <div class="alert-row is-info">
+      ${Icons.bell}
+      <div style="flex:1;">
+        <div style="font-weight:600; color: var(--primary); font-size: 13.5px;">12 oportunidades próximas a cerrar</div>
+        <div style="font-size: 12px; color: #1B2C6B;">Fecha estimada de cierre en los próximos 7 días</div>
+      </div>
+      <a href="05-estancados.html" style="text-decoration: none; color: inherit;"><button class="btn btn--sm btn--ghost">Ver lista</button></a>
+    </div>
       <button class="btn btn--sm" style="background: var(--error); color: #fff;">Revisar</button>
     </div>
     <div class="alert-row">
@@ -191,7 +217,7 @@ function content() {
               <div class="card__title">Equipo comercial</div>
               <div class="card__subtitle">Cumplimiento y actividad por ejecutivo</div>
             </div>
-            <button class="btn btn--ghost btn--sm">Ver todos ${Icons.arrowRight}</button>
+            <a href="04-cumplimiento.html" style="text-decoration: none;"><button class="btn btn--ghost btn--sm">Ver todos ${Icons.arrowRight}</button></a>
           </div>
           <div style="padding: 4px 0;">
             ${ejecutivosHTML}
@@ -209,7 +235,7 @@ function content() {
           </div>
           <div class="card__body">
             ${alertsHTML}
-            <button class="btn btn--secondary btn--block" style="margin-top: 12px;">Ver todas las alertas</button>
+            <a href="08-alertas.html" style="text-decoration: none;"><button class="btn btn--secondary btn--block" style="margin-top: 12px;">Ver todas las alertas</button></a>
           </div>
         </div>
       </div>
@@ -249,7 +275,7 @@ function content() {
               <div class="card__title">Variables del sistema</div>
               <div class="card__subtitle">Configuración actual de alertas y reglas</div>
             </div>
-            <button class="btn btn--ghost btn--sm">${Icons.pencil} Editar</button>
+            <a href="02-variables-sistema.html" style="text-decoration: none;"><button class="btn btn--ghost btn--sm">${Icons.pencil} Editar</button></a>
           </div>
           <div class="card__body">
             <dl class="detail-info-list" style="grid-template-columns: 1fr auto; gap: 10px 16px;">
