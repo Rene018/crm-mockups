@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/components.css">
 <style>
-  .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
-  .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; }
-  .bp-col { display: flex; flex-direction: column; }
-
   .variables-group {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -67,12 +62,9 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-
-    <div>
-      <div><div><div class="app-shell" id="d"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
@@ -103,30 +95,8 @@ const grupos = [
   }
 ];
 
-function renderVarRow(v, bp) {
+function renderVarRow(v) {
   const isToggle = v.unit === 'toggle';
-  if (bp === 'mobile') {
-    return `
-      <div style="padding: 14px 16px; border-bottom: 1px solid var(--border);">
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 6px;">
-          <div style="flex:1;">
-            <div class="variable-name">${v.name}</div>
-            <div class="variable-desc">${v.desc}</div>
-          </div>
-          ${isToggle ? `
-            <label class="switch"><input type="checkbox" ${v.value === 'true' ? 'checked' : ''}><span class="switch__slider"></span></label>
-          ` : ''}
-        </div>
-        ${!isToggle ? `
-          <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
-            <input class="input variable-value-input" value="${v.value}" style="flex:1;" />
-            <span style="font-size: 11.5px; color: var(--text-muted); min-width: 60px;">${v.unit}</span>
-          </div>
-        ` : ''}
-        <span class="variable-key">${v.key}</span>
-      </div>
-    `;
-  }
   return `
     <div class="variable-row">
       <div>
@@ -147,7 +117,7 @@ function renderVarRow(v, bp) {
   `;
 }
 
-function renderGrupo(g, bp) {
+function renderGrupo(g) {
   return `
     <div class="variables-group">
       <div class="variables-group__header">
@@ -158,13 +128,12 @@ function renderGrupo(g, bp) {
         </div>
         <span class="badge badge--neutral">${g.vars.length} variables</span>
       </div>
-      ${g.vars.map(v => renderVarRow(v, bp)).join('')}
+      ${g.vars.map(v => renderVarRow(v)).join('')}
     </div>
   `;
 }
 
-function content(bp) {
-  const isMobile = bp === 'mobile';
+function content() {
   return `
     <div class="content">
       <div class="page-head">
@@ -183,38 +152,34 @@ function content(bp) {
         </div>
       </div>
 
-      ${!isMobile ? `
-        <div class="filter-bar">
-          <div class="input-wrapper" style="flex:1; max-width: 340px;">
-            ${Icons.search}
-            <input class="input input--with-icon" placeholder="Buscar variable por nombre o clave...">
-          </div>
-          <select class="select" style="max-width: 220px;">
-            <option>Todas las categorías</option>
-            <option>Alertas y notificaciones</option>
-            <option>Reglas comerciales</option>
-          </select>
-          <div style="margin-left: auto; display: flex; gap: 8px;">
-            <button class="btn btn--primary btn--sm">${Icons.check} Guardar cambios</button>
-          </div>
+      <div class="filter-bar">
+        <div class="input-wrapper" style="flex:1; max-width: 340px;">
+          ${Icons.search}
+          <input class="input input--with-icon" placeholder="Buscar variable por nombre o clave...">
         </div>
-      ` : ''}
-
-      ${grupos.map(g => renderGrupo(g, bp)).join('')}
-
-      ${isMobile ? `
-        <div style="position: sticky; bottom: 0; padding: 12px 0; background: var(--page-bg); display: flex; gap: 10px; margin-top: 20px;">
-          <button class="btn btn--secondary btn--block">Cancelar</button>
-          <button class="btn btn--primary btn--block">Guardar</button>
+        <select class="select" style="max-width: 220px;">
+          <option>Todas las categorías</option>
+          <option>Alertas y notificaciones</option>
+          <option>Reglas comerciales</option>
+        </select>
+        <div style="margin-left: auto; display: flex; gap: 8px;">
+          <button class="btn btn--primary btn--sm">${Icons.check} Guardar cambios</button>
         </div>
-      ` : ''}
+      </div>
+
+      ${grupos.map(g => renderGrupo(g)).join('')}
+
     </div>
   `;
 }
 
-document.getElementById('d').innerHTML = `${renderSidebar('variables','coordinador')}<div class="main-area">${renderTopbar({title:'Variables del sistema'})}${content('desktop')}</div>`;
-document.getElementById('t').innerHTML = `${renderSidebar('variables','coordinador')}<div class="main-area">${renderTopbar({title:'Variables'})}${content('tablet')}</div>`;
-document.getElementById('m').innerHTML = `<div class="main-area">${renderTopbar({title:'Variables', actions:`<button class="topbar__icon-btn">${Icons.clock}</button>`})}${content('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `
+  ${renderSidebar('variables', 'coordinador')}
+  <div class="main-area">
+    ${renderTopbar({ title: 'Variables del sistema' })}
+    ${content()}
+  </div>
+`;
 </script>
 </body>
 </html>

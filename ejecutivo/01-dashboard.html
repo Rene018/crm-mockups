@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/components.css">
 <style>
-  /* Canvas styles */
   .canvas-title {
     font-family: 'Roboto', sans-serif;
     font-size: 22px;
@@ -20,40 +19,18 @@
     color: #6B6B6B;
     margin-bottom: 40px;
   }
-  .breakpoints-row {
-    display: flex;
-    gap: 60px;
-    align-items: flex-start;
-  }
-  .bp-col {
-    display: flex;
-    flex-direction: column;
-  }
 </style>
 </head>
 <body>
-<div >
-  <div >
-
-
-
-    <div >
-      <div >
-        <div >
-          <div class="app-shell" id="desktop-shell"></div>
-        </div>
-      </div>
-      
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-/* ============================================================
-   DASHBOARD CONTENT (compartido entre breakpoints)
-   ============================================================ */
-
-function dashboardContent(bp = 'desktop') {
+function dashboardContent() {
   const statCards = `
     <div class="stat-card">
       <div class="stat-card__icon">${Icons.briefcase}</div>
@@ -109,7 +86,7 @@ function dashboardContent(bp = 'desktop') {
     { type: 'success', title: 'Reunión virtual — Aguas del Valle', desc: 'Presentación inicial del portafolio de riego', date: 'Hoy, 9:30am', badge: 'completada' },
     { type: 'blue', title: 'Visita programada — Ingenio del Cauca', desc: 'Cita para inspección técnica en planta', date: 'Mañana, 2:00pm', badge: 'agendada' },
     { type: 'success', title: 'Email enviado — Constructora Andina', desc: 'Cotización revisada según última reunión', date: 'Ayer', badge: 'completada' },
-    { type: 'blue', title: 'Actividad programada — EAAB', desc: 'Seguimiento telefónico a licitación', date: 'Viernes', badge: 'agendada' },
+    { type: 'blue', title: 'Actividad programada — EAAB', desc: 'Seguimiento telefónico a licitação', date: 'Viernes', badge: 'agendada' },
   ];
 
   const actividadesHTML = actividades.map(a => `
@@ -151,8 +128,6 @@ function dashboardContent(bp = 'desktop') {
     </div>
   `).join('');
 
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-
   return `
     <div class="content">
       <div class="page-head">
@@ -160,25 +135,19 @@ function dashboardContent(bp = 'desktop') {
           <div class="page-head__title">Hola, Juan 👋</div>
           <div class="page-head__subtitle">Aquí está el resumen de tu semana comercial</div>
         </div>
-        ${bp !== 'mobile' ? `
-          <div class="page-head__actions">
-            <button class="btn btn--secondary btn--sm">${Icons.calendar} Esta semana</button>
-            <a href="05-oportunidad-form.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
-                <button class="btn btn--primary btn--sm">${Icons.plus} Nueva oportunidad</button></a>
-            
-          </div>
-        ` : ''}
+        <div class="page-head__actions">
+          <button class="btn btn--secondary btn--sm">${Icons.calendar} Esta semana</button>
+          <a href="05-oportunidad-form.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
+              <button class="btn btn--primary btn--sm">${Icons.plus} Nueva oportunidad</button></a>
+        </div>
       </div>
 
-      <!-- Stat cards grid -->
-      <div style="display: grid; grid-template-columns: repeat(${bp === 'desktop' ? 4 : 2}, 1fr); gap: 12px; margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
         ${statCards}
       </div>
 
-      <!-- Main content 2-column layout on desktop, stacked on mobile -->
-      <div style="display: grid; grid-template-columns: ${isCompact ? '1fr' : '1.2fr 1fr'}; gap: 16px;">
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px;">
 
-        <!-- Col 1: Oportunidades por estado + Leads calientes -->
         <div style="display: flex; flex-direction: column; gap: 16px;">
           <div class="card">
             <div class="card__header">
@@ -207,7 +176,6 @@ function dashboardContent(bp = 'desktop') {
           </div>
         </div>
 
-        <!-- Col 2: Actividades recientes -->
         <div class="card">
           <div class="card__header">
             <div>
@@ -229,34 +197,11 @@ function dashboardContent(bp = 'desktop') {
   `;
 }
 
-/* ============================================================
-   RENDERIZAR CADA BREAKPOINT
-   ============================================================ */
-
-// Desktop
-document.getElementById('desktop-shell').innerHTML = `
+document.getElementById('shell').innerHTML = `
   ${renderSidebar('dashboard', 'ejecutivo')}
   <div class="main-area">
     ${renderTopbar({ title: 'Mi Dashboard' })}
-    ${dashboardContent('desktop')}
-  </div>
-`;
-
-// Tablet - sidebar colapsado (72px)
-document.getElementById('tablet-shell').innerHTML = `
-  ${renderSidebar('dashboard', 'ejecutivo')}
-  <div class="main-area">
-    ${renderTopbar({ title: 'Mi Dashboard' })}
-    ${dashboardContent('tablet')}
-  </div>
-`;
-
-// Mobile - sin sidebar, con bottom nav
-document.getElementById('mobile-shell').innerHTML = `
-  <div class="main-area">
-    ${renderTopbar({ title: 'Dashboard' })}
-    ${dashboardContent('mobile')}
-    ${renderMobileBottomNav('dashboard')}
+    ${dashboardContent()}
   </div>
 `;
 </script>

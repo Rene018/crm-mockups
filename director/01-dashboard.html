@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/components.css">
 <style>
-  .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
-  .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; }
-  .bp-col { display: flex; flex-direction: column; }
-
   .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 180px; padding: 0 8px; }
   .chart-bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
   .chart-bar-wrap { width: 100%; display: flex; gap: 3px; align-items: flex-end; height: 100%; }
@@ -47,22 +42,15 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-
-
-    <div>
-      <div><div><div class="app-shell" id="d"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-function content(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-  const isMobile = bp === 'mobile';
-
+function content() {
   const statCards = `
     <div class="stat-card">
       <div class="stat-card__icon stat-card__icon--accent">${Icons.currency}</div>
@@ -148,7 +136,7 @@ function content(bp) {
   `).join('');
 
   const sectoresHTML = `
-    <div style="display: flex; align-items: center; gap: 20px; ${isMobile ? 'flex-direction: column;' : ''}">
+    <div style="display: flex; align-items: center; gap: 20px;">
       <div class="donut">
         <div class="donut__center">
           <div class="donut__value">$ 4.8B</div>
@@ -197,23 +185,21 @@ function content(bp) {
           <div class="page-head__title">Dash board Ejecutivo</div>
           <div class="page-head__subtitle">Visión estratégica del negocio · Actualizado hace 5 min</div>
         </div>
-        ${!isMobile ? `
-          <div class="page-head__actions">
-            <select class="select" style="max-width: 160px;">
-              <option>Abril 2026</option><option>Marzo 2026</option><option>Q1 2026</option><option>Año 2026</option>
-            </select>
-            <button class="btn btn--secondary btn--sm">${Icons.download} Exportar PDF</button>
-            <a href="06-reportes.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;"><button class="btn btn--primary btn--sm">${Icons.chartBar} Reportes</button></a>
-            
-          </div>
-        ` : ''}
+        <div class="page-head__actions">
+          <select class="select" style="max-width: 160px;">
+            <option>Abril 2026</option><option>Marzo 2026</option><option>Q1 2026</option><option>Año 2026</option>
+          </select>
+          <button class="btn btn--secondary btn--sm">${Icons.download} Exportar PDF</button>
+          <a href="06-reportes.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;"><button class="btn btn--primary btn--sm">${Icons.chartBar} Reportes</button></a>
+          
+        </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(${isMobile ? 2 : 4}, 1fr); gap: 12px; margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
         ${statCards}
       </div>
 
-      <div style="display: grid; gap: 16px; margin-bottom: 16px; ${isCompact ? '' : 'grid-template-columns: 1.5fr 1fr;'}">
+      <div style="display: grid; gap: 16px; margin-bottom: 16px; grid-template-columns: 1.5fr 1fr;">
         <div class="card">
           <div class="card__header">
             <div><div class="card__title">Ventas mensuales</div><div class="card__subtitle">Últimos 7 meses · millones COP</div></div>
@@ -243,7 +229,7 @@ function content(bp) {
         </div>
       </div>
 
-      <div style="display: grid; gap: 16px; margin-bottom: 16px; ${isCompact ? '' : 'grid-template-columns: 1.3fr 1fr;'}">
+      <div style="display: grid; gap: 16px; margin-bottom: 16px; grid-template-columns: 1.3fr 1fr;">
         <div class="card">
           <div class="card__header">
             <div><div class="card__title">Funnel de conversión</div><div class="card__subtitle">Lead → Ganada · últimos 90 días</div></div>
@@ -260,7 +246,7 @@ function content(bp) {
         </div>
       </div>
 
-      <div style="display: grid; gap: 16px; ${isCompact ? '' : 'grid-template-columns: 1fr 1fr;'}">
+      <div style="display: grid; gap: 16px; grid-template-columns: 1fr 1fr;">
         <div class="card">
           <div class="card__header"><div><div class="card__title">Proyección Q2 2026</div><div class="card__subtitle">Forecasting · probabilidad ponderada</div></div></div>
           <div class="card__body">
@@ -300,9 +286,13 @@ function content(bp) {
   `;
 }
 
-document.getElementById('d').innerHTML = `${renderSidebar('dashboard','director')}<div class="main-area">${renderTopbar({title:'Dashboard Ejecutivo'})}${content('desktop')}</div>`;
-document.getElementById('t').innerHTML = `${renderSidebar('dashboard','director')}<div class="main-area">${renderTopbar({title:'Dashboard'})}${content('tablet')}</div>`;
-document.getElementById('m').innerHTML = `<div class="main-area">${renderTopbar({title:'Dashboard', actions:`<button class="topbar__icon-btn">${Icons.download}</button>`})}${content('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `
+  ${renderSidebar('dashboard', 'director')}
+  <div class="main-area">
+    ${renderTopbar({ title: 'Dashboard Ejecutivo' })}
+    ${content()}
+  </div>
+`;
 </script>
 </body>
 </html>

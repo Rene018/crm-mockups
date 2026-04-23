@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/components.css">
 <style>
-  .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
-  .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; }
-  .bp-col { display: flex; flex-direction: column; }
-
   .cumplimiento-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -47,21 +42,15 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-
-    <div>
-      <div><div><div class="app-shell" id="d"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-function content(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-  const isMobile = bp === 'mobile';
-
+function content() {
   const ejecutivos = [
     {
       name: 'María García', depto: 'Antioquia', color: 2, cumplimiento: 92,
@@ -111,25 +100,15 @@ function content(bp) {
 
       <div style="padding-top: 12px; border-top: 1px solid var(--border);">
         ${e.metas.map(m => `
-          <div class="meta-row" style="${isMobile ? 'grid-template-columns: 1fr; gap: 6px;' : ''}">
-            ${isMobile ? `
-              <div style="display: flex; justify-content: space-between;">
-                <span class="meta-label">${m.label}</span>
-                <span class="meta-value">${m.actual} / ${m.meta} · ${m.pct}%</span>
+          <div class="meta-row">
+            <div class="meta-label">${m.label}</div>
+            <div class="meta-bar-wrap">
+              <div class="meta-line" style="left: ${Math.min(100, m.meta/Math.max(m.meta, m.actual)*100)}%;"></div>
+              <div class="meta-bar-fill" style="background: ${m.color}; width: ${Math.min(100, m.pct/Math.max(100, m.pct)*100)}%;">
+                ${m.actual >= m.meta ? '✓' : ''} ${m.actual}
               </div>
-              <div class="meta-bar-wrap">
-                <div class="meta-bar-fill" style="background: ${m.color}; width: ${Math.min(100, m.pct)}%;"></div>
-              </div>
-            ` : `
-              <div class="meta-label">${m.label}</div>
-              <div class="meta-bar-wrap">
-                <div class="meta-line" style="left: ${Math.min(100, m.meta/Math.max(m.meta, m.actual)*100)}%;"></div>
-                <div class="meta-bar-fill" style="background: ${m.color}; width: ${Math.min(100, m.pct/Math.max(100, m.pct)*100)}%;">
-                  ${m.actual >= m.meta ? '✓' : ''} ${m.actual}
-                </div>
-              </div>
-              <div class="meta-value">${m.pct}% · meta ${m.meta}</div>
-            `}
+            </div>
+            <div class="meta-value">${m.pct}% · meta ${m.meta}</div>
           </div>
         `).join('')}
       </div>
@@ -141,22 +120,6 @@ function content(bp) {
       ` : ''}
     </div>
   `;
-
-  if (isMobile) {
-    return `
-      <div class="content">
-        <div class="page-head">
-          <div class="page-head__title-group">
-            <div class="page-head__title">Cumplimiento</div>
-            <div class="page-head__subtitle">Metas vs logrado · Abril</div>
-          </div>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          ${ejecutivos.map(renderCard).join('')}
-        </div>
-      </div>
-    `;
-  }
 
   return `
     <div class="content">
@@ -174,8 +137,7 @@ function content(bp) {
         </div>
       </div>
 
-      <!-- Summary stats -->
-      <div style="display: grid; grid-template-columns: repeat(${bp === 'tablet' ? 2 : 4}, 1fr); gap: 12px; margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
         <div class="stat-card">
           <div class="stat-card__icon stat-card__icon--success">${Icons.trendingUp}</div>
           <div class="stat-card__label">Alto cumplimiento</div>
@@ -202,16 +164,20 @@ function content(bp) {
         </div>
       </div>
 
-      <div style="display: grid; gap: 14px; ${isCompact ? '' : 'grid-template-columns: repeat(2, 1fr);'}">
+      <div style="display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr);">
         ${ejecutivos.map(renderCard).join('')}
       </div>
     </div>
   `;
 }
 
-document.getElementById('d').innerHTML = `${renderSidebar('cumplimiento','coordinador')}<div class="main-area">${renderTopbar({title:'Reporte de cumplimiento'})}${content('desktop')}</div>`;
-document.getElementById('t').innerHTML = `${renderSidebar('cumplimiento','coordinador')}<div class="main-area">${renderTopbar({title:'Cumplimiento'})}${content('tablet')}</div>`;
-document.getElementById('m').innerHTML = `<div class="main-area">${renderTopbar({title:'Cumplimiento', actions:`<button class="topbar__icon-btn">${Icons.calendar}</button>`})}${content('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `
+  ${renderSidebar('cumplimiento', 'coordinador')}
+  <div class="main-area">
+    ${renderTopbar({ title: 'Reporte de cumplimiento' })}
+    ${content()}
+  </div>
+`;
 </script>
 </body>
 </html>

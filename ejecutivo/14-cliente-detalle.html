@@ -9,27 +9,12 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 </style>
 </head>
 <body>
-<div >
-  <div >
-
-
-
-    <!-- ═══ VISTA 2: DETALLE DE CLIENTE ═══ -->
-    <div>
-      <div>
-        <div>
-            <div class="app-shell" id="detail-desktop">
-
-            </div>
-        </div>
-      </div>
-    </div>
-
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
@@ -71,55 +56,7 @@ function clienteCard(c) {
   `;
 }
 
-function gridContent(bp) {
-  const cols = bp === 'mobile' ? 1 : bp === 'tablet' ? 2 : 3;
-  return `
-    <div class="content">
-      <div class="page-head">
-        <div class="page-head__title-group">
-          <div class="page-head__title">Mis Clientes</div>
-          <div class="page-head__subtitle">${clientes.length} empresas en tu cartera · 3 clientes recurrentes</div>
-        </div>
-        ${bp !== 'mobile' ? `
-          <div class="page-head__actions">
-            <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
-            <button class="btn btn--primary btn--sm">${Icons.plus} Nuevo cliente</button>
-          </div>
-        ` : ''}
-      </div>
-
-      <div class="filter-bar">
-        <div class="input-wrapper" style="flex:1; max-width: 340px;">
-          ${Icons.search}
-          <input class="input input--with-icon" placeholder="Buscar empresa, NIT, contacto...">
-        </div>
-        ${bp !== 'mobile' ? `
-          <select class="select" style="max-width: 180px;">
-            <option>Todos los sectores</option>
-            <option>Agua Potable</option>
-            <option>Gas</option>
-            <option>Agro/Riego</option>
-          </select>
-          <select class="select" style="max-width: 180px;">
-            <option>Todas las ciudades</option>
-            <option>Bucaramanga</option>
-            <option>Cali</option>
-            <option>Bogotá</option>
-          </select>
-          <button class="btn btn--secondary btn--sm" style="margin-left:auto;">${Icons.filter} Más filtros</button>
-        ` : ''}
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: 12px;">
-        ${clientes.map(clienteCard).join('')}
-      </div>
-    </div>
-  `;
-}
-
-// ═══ DETALLE ═══
-function detailContent(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
+function detailContent() {
   const contactosHTML = `
     <div style="display: flex; flex-direction: column; gap: 12px;">
       ${[
@@ -194,7 +131,7 @@ function detailContent(bp) {
 
   const headerHTML = `
     <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px;">
-      <div style="display: flex; align-items: flex-start; gap: 16px; ${bp === 'mobile' ? 'flex-direction: column;' : ''}">
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
         <div class="avatar avatar--lg avatar--color-1" style="width: 64px; height: 64px; font-size: 20px;">ES</div>
         <div style="flex: 1;">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
@@ -210,20 +147,18 @@ function detailContent(bp) {
             <span style="display: inline-flex; align-items: center; gap: 6px;">${Icons.envelope} contacto@empas.gov.co</span>
           </div>
         </div>
-        ${bp !== 'mobile' ? `
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
-                      <a href="05-oportunidad-form.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
-            <button class="btn btn--primary btn--sm">${Icons.plus} Nueva oportunidad</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
+          <a href="05-oportunidad-form.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
+          <button class="btn btn--primary btn--sm">${Icons.plus} Nueva oportunidad</button>
           </a>
-          </div>
-        ` : ''}
+        </div>
       </div>
     </div>
   `;
 
   const tabsHTML = `
-    <div class="tabs" style="${bp === 'mobile' ? 'overflow-x: auto; scrollbar-width: none;' : ''}">
+    <div class="tabs">
       <a class="tab is-active" style="flex-shrink: 0;">Información</a>
       <a class="tab" style="flex-shrink: 0;">Contactos <span class="tab__count">3</span></a>
       <a class="tab" style="flex-shrink: 0;">Oportunidades <span class="tab__count">3</span></a>
@@ -236,7 +171,7 @@ function detailContent(bp) {
       ${headerHTML}
       ${tabsHTML}
 
-      <div style="display: grid; gap: 16px; ${isCompact ? '' : 'grid-template-columns: 1fr 1fr;'}">
+      <div style="display: grid; gap: 16px; grid-template-columns: 1fr 1fr;">
         <div class="card">
           <div class="card__header">
             <div class="card__title">Contactos</div>
@@ -279,20 +214,9 @@ function detailContent(bp) {
   `;
 }
 
-document.getElementById('detail-desktop').innerHTML = `
+document.getElementById('shell').innerHTML = `
   ${renderSidebar('clientes', 'ejecutivo')}
-  <div class="main-area">${renderTopbar({ breadcrumb: ['Clientes', 'EMPAS S.A.'] })}${detailContent('desktop')}</div>
-`;
-document.getElementById('detail-tablet').innerHTML = `
-  ${renderSidebar('clientes', 'ejecutivo')}
-  <div class="main-area">${renderTopbar({ breadcrumb: ['Clientes', 'EMPAS'] })}${detailContent('tablet')}</div>
-`;
-document.getElementById('detail-mobile').innerHTML = `
-  <div class="main-area">
-    ${renderTopbar({ title: 'EMPAS S.A.', actions: `<button class="topbar__icon-btn">${Icons.pencil}</button>` })}
-    ${detailContent('mobile')}
-    ${renderMobileBottomNav('clientes')}
-  </div>
+  <div class="main-area">${renderTopbar({ breadcrumb: ['Clientes', 'EMPAS S.A.'] })}${detailContent()}</div>
 `;
 </script>
 </body>

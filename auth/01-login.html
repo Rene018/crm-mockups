@@ -9,8 +9,7 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
+
 
   .login-layout { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
   .login-left {
@@ -84,162 +83,13 @@
 </style>
 </head>
 <body>
-<div class="mockup-scroll">
-  <div class="mockup-scroll__inner">
-    <div style="margin-bottom: 20px;">
-      <div class="canvas-title">🔐 AUTH — Login</div>
-      <div class="canvas-subtitle">Pantalla de entrada · Split layout en desktop, stack en tablet/mobile.</div>
-    </div>
-
-    <div class="canvas-section-title">🔑 Login</div>
-    <div class="breakpoints-row">
-      <div class="bp-col">
-        <div class="artboard-label">Desktop · 1440 × 900</div>
-        <div class="artboard artboard--desktop" id="d-login"></div>
-      </div>
-      <div class="bp-col">
-        <div class="artboard-label">Tablet · 768 × 1024</div>
-        <div class="artboard artboard--tablet" id="t-login"></div>
-      </div>
-      <div class="bp-col">
-        <div class="artboard-label">Mobile · 375 × 812</div>
-        <div class="artboard artboard--mobile" id="m-login"></div>
-      </div>
-    </div>
-
-    <div class="canvas-section-title">🔄 Recuperar contraseña</div>
-    <div class="breakpoints-row">
-      <div class="bp-col">
-        <div class="artboard-label">Desktop · 1440</div>
-        <div class="artboard artboard--desktop" id="d-forgot"></div>
-      </div>
-      <div class="bp-col">
-        <div class="artboard-label">Tablet · 768</div>
-        <div class="artboard artboard--tablet" id="t-forgot"></div>
-      </div>
-      <div class="bp-col">
-        <div class="artboard-label">Mobile · 375</div>
-        <div class="artboard artboard--mobile" id="m-forgot"></div>
-      </div>
-    </div>
-  </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="artboard artboard--desktop" style="width: 1440px; height: 900px;" id="shell"></div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-function renderLeft() {
-  return `
-    <div class="login-left">
-      <div>
-        <div class="login-left__logo">CRM <span>Extrucol</span></div>
-        <div class="login-left__tagline">Sistema Comercial</div>
-      </div>
-      <div class="login-left__hero">
-        <div class="login-left__title">Seguimiento Comercial<br><span class="accent">Extrucol</span></div>
-        <div class="login-left__subtitle">
-          Gestiona tu pipeline, tus leads y actividades en terreno desde una única plataforma pensada para el equipo comercial.
-        </div>
-      </div>
-      <div class="login-features">
-        <div class="login-feature">
-          <div class="login-feature__icon">${Icons.briefcase}</div>
-          <div class="login-feature__text">Control total de oportunidades con Kanban intuitivo</div>
-        </div>
-        <div class="login-feature">
-          <div class="login-feature__icon">${Icons.mapPin}</div>
-          <div class="login-feature__text">Actividades georreferenciadas y registro móvil en terreno</div>
-        </div>
-        <div class="login-feature">
-          <div class="login-feature__icon">${Icons.chartBar}</div>
-          <div class="login-feature__text">Reportes en tiempo real y forecasting por ejecutivo</div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function renderRight(variant = 'login') {
-  if (variant === 'forgot') {
-    return `
-      <div class="login-right">
-        <div class="login-form">
-          <a style="font-size: 12.5px; color: var(--primary); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px; cursor: pointer;">
-            ${Icons.chevronLeft} Volver al login
-          </a>
-          <div class="login-form__icon" style="background: var(--accent-bg); color: var(--accent);">${Icons.lock}</div>
-          <div class="login-form__title">Recuperar contraseña</div>
-          <div class="login-form__subtitle">Te enviaremos un enlace para restablecer tu contraseña al email registrado.</div>
-
-          <div class="login-form__fields">
-            <div class="form-field">
-              <label class="form-field__label">Email</label>
-              <input class="input" type="email" placeholder="usuario@extrucol.com">
-            </div>
-            <button class="btn btn--primary btn--block btn--lg" style="margin-top: 6px;">
-              ${Icons.envelope} Enviar enlace
-            </button>
-          </div>
-
-          <div class="login-footer">Sistema CRM · Extrucol S.A.S · v1.0</div>
-        </div>
-      </div>
-    `;
-  }
-
-  return `
-    <div class="login-right">
-      <div class="login-form">
-        <div class="login-form__icon">${Icons.user}</div>
-        <div class="login-form__title">Bienvenido de nuevo</div>
-        <div class="login-form__subtitle">Ingresa tus credenciales para acceder al sistema</div>
-
-        <div class="login-form__fields">
-          <div class="form-field">
-            <label class="form-field__label">Email</label>
-            <div class="input-wrapper">
-              ${Icons.envelope}
-              <input class="input input--with-icon" type="email" placeholder="usuario@extrucol.com">
-            </div>
-          </div>
-          <div class="form-field">
-            <label class="form-field__label">Contraseña</label>
-            <div class="input-wrapper">
-              ${Icons.lock}
-              <input class="input input--with-icon" type="password" placeholder="••••••••" value="password123">
-            </div>
-          </div>
-          <a class="login-form__forgot">¿Olvidaste tu contraseña?</a>
-
-          <button class="btn btn--primary btn--block btn--lg" style="margin-top: 6px;">
-            Ingresar al sistema ${Icons.arrowRight}
-          </button>
-
-          <div class="login-divider">o continúa con</div>
-
-          <button class="login-google">
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Continuar con Google
-          </button>
-        </div>
-
-        <div class="login-footer">Sistema CRM · Extrucol S.A.S · v1.0</div>
-      </div>
-    </div>
-  `;
-}
-
-document.getElementById('d-login').innerHTML = `<div class="login-layout">${renderLeft()}${renderRight('login')}</div>`;
-document.getElementById('t-login').innerHTML = `<div class="is-compact"><div class="login-layout">${renderLeft()}${renderRight('login')}</div></div>`;
-document.getElementById('m-login').innerHTML = `<div class="is-compact is-mobile-login"><div class="login-layout">${renderLeft()}${renderRight('login')}</div></div>`;
-
-document.getElementById('d-forgot').innerHTML = `<div class="login-layout">${renderLeft()}${renderRight('forgot')}</div>`;
-document.getElementById('t-forgot').innerHTML = `<div class="is-compact"><div class="login-layout">${renderLeft()}${renderRight('forgot')}</div></div>`;
-document.getElementById('m-forgot').innerHTML = `<div class="is-compact is-mobile-login"><div class="login-layout">${renderLeft()}${renderRight('forgot')}</div></div>`;
+document.getElementById('shell').innerHTML = `<div class="login-layout">${renderLeft()}${renderRight('login')}</div>`;
 </script>
 </body>
 </html>

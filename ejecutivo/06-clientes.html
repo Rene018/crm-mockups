@@ -9,15 +9,13 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 </style>
 </head>
 <body>
-<div >
-
-        <div><div class="app-shell" id="grid-desktop"></div></div>
-
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
+  </div>
 </div>
 
 <script src="../shared/components.js"></script>
@@ -60,8 +58,7 @@ function clienteCard(c) {
   `;
 }
 
-function gridContent(bp) {
-  const cols = bp === 'mobile' ? 1 : bp === 'tablet' ? 2 : 3;
+function gridContent() {
   return `
     <div class="content">
       <div class="page-head">
@@ -69,12 +66,10 @@ function gridContent(bp) {
           <div class="page-head__title">Mis Clientes</div>
           <div class="page-head__subtitle">${clientes.length} empresas en tu cartera · 3 clientes recurrentes</div>
         </div>
-        ${bp !== 'mobile' ? `
-          <div class="page-head__actions">
-            <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
-            <button class="btn btn--primary btn--sm">${Icons.plus} Nuevo cliente</button>
-          </div>
-        ` : ''}
+        <div class="page-head__actions">
+          <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
+          <button class="btn btn--primary btn--sm">${Icons.plus} Nuevo cliente</button>
+        </div>
       </div>
 
       <div class="filter-bar">
@@ -82,209 +77,31 @@ function gridContent(bp) {
           ${Icons.search}
           <input class="input input--with-icon" placeholder="Buscar empresa, NIT, contacto...">
         </div>
-        ${bp !== 'mobile' ? `
-          <select class="select" style="max-width: 180px;">
-            <option>Todos los sectores</option>
-            <option>Agua Potable</option>
-            <option>Gas</option>
-            <option>Agro/Riego</option>
-          </select>
-          <select class="select" style="max-width: 180px;">
-            <option>Todas las ciudades</option>
-            <option>Bucaramanga</option>
-            <option>Cali</option>
-            <option>Bogotá</option>
-          </select>
-          <button class="btn btn--secondary btn--sm" style="margin-left:auto;">${Icons.filter} Más filtros</button>
-        ` : ''}
+        <select class="select" style="max-width: 180px;">
+          <option>Todos los sectores</option>
+          <option>Agua Potable</option>
+          <option>Gas</option>
+          <option>Agro/Riego</option>
+        </select>
+        <select class="select" style="max-width: 180px;">
+          <option>Todas las ciudades</option>
+          <option>Bucaramanga</option>
+          <option>Cali</option>
+          <option>Bogotá</option>
+        </select>
+        <button class="btn btn--secondary btn--sm" style="margin-left:auto;">${Icons.filter} Más filtros</button>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: 12px;">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
         ${clientes.map(clienteCard).join('')}
       </div>
     </div>
   `;
 }
 
-// ═══ DETALLE ═══
-function detailContent(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-  const contactosHTML = `
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      ${[
-        { name: 'Andrés Rodríguez', role: 'Gerente de Proyectos', phone: '+57 310 555 8842', email: 'a.rodriguez@empas.gov.co', color: 2, avatar: 'AR', principal: true },
-        { name: 'María López', role: 'Compradora', phone: '+57 310 555 8843', email: 'm.lopez@empas.gov.co', color: 3, avatar: 'ML', principal: false },
-        { name: 'Carlos Muñoz', role: 'Director Técnico', phone: '+57 310 555 8844', email: 'c.munoz@empas.gov.co', color: 4, avatar: 'CM', principal: false },
-      ].map(c => `
-        <div style="display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--page-bg); border-radius: 8px;">
-          <div class="avatar avatar--color-${c.color}">${c.avatar}</div>
-          <div style="flex:1; min-width: 0;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <div style="font-weight:600; color: var(--text-primary); font-size: 13.5px;">${c.name}</div>
-              ${c.principal ? '<span class="badge badge--accent" style="font-size: 9.5px; padding: 1px 6px;">Principal</span>' : ''}
-            </div>
-            <div style="font-size: 12px; color: var(--text-muted);">${c.role}</div>
-            <div style="display: flex; gap: 12px; margin-top: 6px; font-size: 12px;">
-              <a style="color: var(--primary); display: inline-flex; align-items: center; gap: 3px;">${Icons.phone.replace('icon"','icon icon--xs"')} ${c.phone}</a>
-            </div>
-            <div style="margin-top: 2px;">
-              <a style="color: var(--primary); font-size: 12px; display: inline-flex; align-items: center; gap: 3px;">${Icons.envelope.replace('icon"','icon icon--xs"')} ${c.email}</a>
-            </div>
-          </div>
-          <button class="topbar__icon-btn">${Icons.dots}</button>
-        </div>
-      `).join('')}
-      <button class="btn btn--secondary btn--block" style="border-style: dashed;">${Icons.plus} Agregar contacto</button>
-    </div>
-  `;
-
-  const oportunidadesHTML = `
-    <div class="table-wrapper">
-      <table class="table">
-        <thead><tr><th>Oportunidad</th><th>Estado</th><th>Valor</th><th>Cierre</th><th></th></tr></thead>
-        <tbody>
-          <tr>
-            <td><div style="font-weight: 600; color: var(--text-primary);">Proyecto acueducto rural</div><div style="font-size: 11.5px; color: var(--text-muted);">OPP-2025-0042</div></td>
-            <td><span class="badge badge--propuesta"><span class="dot"></span> Propuesta</span></td>
-            <td style="font-weight: 600;">$ 485 M</td>
-            <td>25 Abr 2026</td>
-            <td><button class="table__action">${Icons.chevronRight}</button></td>
-          </tr>
-          <tr>
-            <td><div style="font-weight: 600; color: var(--text-primary);">Suministro tubería Q1</div><div style="font-size: 11.5px; color: var(--text-muted);">OPP-2024-0198</div></td>
-            <td><span class="badge badge--ganada"><span class="dot"></span> Ganada</span></td>
-            <td style="font-weight: 600;">$ 215 M</td>
-            <td>15 Dic 2024</td>
-            <td><button class="table__action">${Icons.chevronRight}</button></td>
-          </tr>
-          <tr>
-            <td><div style="font-weight: 600; color: var(--text-primary);">Ampliación red sector 4</div><div style="font-size: 11.5px; color: var(--text-muted);">OPP-2024-0156</div></td>
-            <td><span class="badge badge--ganada"><span class="dot"></span> Ganada</span></td>
-            <td style="font-weight: 600;">$ 180 M</td>
-            <td>30 Sep 2024</td>
-            <td><button class="table__action">${Icons.chevronRight}</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  `;
-
-  const headerHTML = `
-    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px;">
-      <div style="display: flex; align-items: flex-start; gap: 16px; ${bp === 'mobile' ? 'flex-direction: column;' : ''}">
-        <div class="avatar avatar--lg avatar--color-1" style="width: 64px; height: 64px; font-size: 20px;">ES</div>
-        <div style="flex: 1;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
-            <span class="badge badge--info">Agua Potable</span>
-            <span class="badge badge--ganada"><span class="dot"></span> Cliente activo</span>
-            <span class="badge badge--accent">Recurrente</span>
-          </div>
-          <div style="font-size: 22px; font-weight: 800; color: var(--text-primary); line-height: 1.2;">EMPAS S.A.</div>
-          <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Empresa Pública de Alcantarillado · NIT 890.200.341-2</div>
-          <div style="display: flex; gap: 16px; margin-top: 12px; font-size: 13px; color: var(--text-secondary); flex-wrap: wrap;">
-            <span style="display: inline-flex; align-items: center; gap: 6px;">${Icons.mapPin} Piedecuesta, Santander</span>
-            <span style="display: inline-flex; align-items: center; gap: 6px;">${Icons.phone} +57 607 655 8842</span>
-            <span style="display: inline-flex; align-items: center; gap: 6px;">${Icons.envelope} contacto@empas.gov.co</span>
-          </div>
-        </div>
-        ${bp !== 'mobile' ? `
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
-            <button class="btn btn--primary btn--sm">${Icons.plus} Nueva oportunidad</button>
-          </div>
-        ` : ''}
-      </div>
-    </div>
-  `;
-
-  const tabsHTML = `
-    <div class="tabs" style="${bp === 'mobile' ? 'overflow-x: auto; scrollbar-width: none;' : ''}">
-      <a class="tab is-active" style="flex-shrink: 0;">Información</a>
-      <a class="tab" style="flex-shrink: 0;">Contactos <span class="tab__count">3</span></a>
-      <a class="tab" style="flex-shrink: 0;">Oportunidades <span class="tab__count">3</span></a>
-      <a class="tab" style="flex-shrink: 0;">Actividades</a>
-    </div>
-  `;
-
-  return `
-    <div class="content">
-      ${headerHTML}
-      ${tabsHTML}
-
-      <div style="display: grid; gap: 16px; ${isCompact ? '' : 'grid-template-columns: 1fr 1fr;'}">
-        <div class="card">
-          <div class="card__header">
-            <div class="card__title">Contactos</div>
-            <button class="btn btn--ghost btn--sm">${Icons.plus}</button>
-          </div>
-          <div class="card__body">${contactosHTML}</div>
-        </div>
-
-        <div class="card">
-          <div class="card__header">
-            <div class="card__title">Oportunidades</div>
-            <span class="badge badge--info">3 totales</span>
-          </div>
-          ${oportunidadesHTML}
-        </div>
-      </div>
-
-      <div class="card" style="margin-top: 16px;">
-        <div class="card__header">
-          <div>
-            <div class="card__title">Información general</div>
-          </div>
-          <button class="btn btn--ghost btn--sm">${Icons.pencil} Editar</button>
-        </div>
-        <div class="card__body">
-          <dl class="detail-info-list" style="grid-template-columns: 160px 1fr;">
-            <dt>Tipo de documento</dt><dd>NIT</dd>
-            <dt>Número documento</dt><dd>890.200.341-2</dd>
-            <dt>País</dt><dd>Colombia</dd>
-            <dt>Departamento</dt><dd>Santander</dd>
-            <dt>Municipio</dt><dd>Piedecuesta</dd>
-            <dt>Modalidad</dt><dd>Interior</dd>
-            <dt>Sector económico</dt><dd>Agua Potable y Saneamiento</dd>
-            <dt>Fecha de registro</dt><dd>12 Ene 2024</dd>
-            <dt>Estado</dt><dd><span class="badge badge--ganada"><span class="dot"></span> Activo</span></dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// Render all
-document.getElementById('grid-desktop').innerHTML = `
+document.getElementById('shell').innerHTML = `
   ${renderSidebar('clientes', 'ejecutivo')}
-  <div class="main-area">${renderTopbar({ title: 'Mis Clientes' })}${gridContent('desktop')}</div>
-`;
-document.getElementById('grid-tablet').innerHTML = `
-  ${renderSidebar('clientes', 'ejecutivo')}
-  <div class="main-area">${renderTopbar({ title: 'Clientes' })}${gridContent('tablet')}</div>
-`;
-document.getElementById('grid-mobile').innerHTML = `
-  <div class="main-area">
-    ${renderTopbar({ title: 'Clientes', actions: `<button class="topbar__icon-btn">${Icons.search}</button><button class="topbar__icon-btn">${Icons.plus}</button>` })}
-    ${gridContent('mobile')}
-    ${renderMobileBottomNav('clientes')}
-  </div>
-`;
-
-document.getElementById('detail-desktop').innerHTML = `
-  ${renderSidebar('clientes', 'ejecutivo')}
-  <div class="main-area">${renderTopbar({ breadcrumb: ['Clientes', 'EMPAS S.A.'] })}${detailContent('desktop')}</div>
-`;
-document.getElementById('detail-tablet').innerHTML = `
-  ${renderSidebar('clientes', 'ejecutivo')}
-  <div class="main-area">${renderTopbar({ breadcrumb: ['Clientes', 'EMPAS'] })}${detailContent('tablet')}</div>
-`;
-document.getElementById('detail-mobile').innerHTML = `
-  <div class="main-area">
-    ${renderTopbar({ title: 'EMPAS S.A.', actions: `<button class="topbar__icon-btn">${Icons.pencil}</button>` })}
-    ${detailContent('mobile')}
-    ${renderMobileBottomNav('clientes')}
-  </div>
+  <div class="main-area">${renderTopbar({ title: 'Mis Clientes' })}${gridContent()}</div>
 `;
 </script>
 </body>

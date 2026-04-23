@@ -9,10 +9,7 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
-  /* Modal */
   .modal-overlay {
     position: absolute; inset: 0;
     background: rgba(26,26,26,0.5);
@@ -57,21 +54,18 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-
-    <div>
-      <div><div style="height: 900px; position: relative;" id="d-conv"></div></div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div style="height: 900px; position: relative;">
+      <div class="app-shell" id="shell"></div>
     </div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-
-function conversionModal(bp) {
+function conversionModal() {
   return `
-
     <div class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
@@ -85,7 +79,6 @@ function conversionModal(bp) {
           <button class="topbar__icon-btn">${Icons.close}</button>
         </div>
         <div class="modal-body">
-          <!-- Preview de conversión -->
           <div class="convert-preview">
             <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">
               ${Icons.funnel.replace('class="icon"','class="icon icon--xs"')} Lead origen
@@ -144,9 +137,7 @@ function conversionModal(bp) {
   `;
 }
 
-
-document.getElementById('d-conv').innerHTML = `<div class="app-shell">${conversionModal('desktop')}</div>`;
-document.getElementById('m-conv').innerHTML = `<div class="app-shell is-mobile">${conversionModal('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `<div class="app-shell">${conversionModal()}</div>`;
 </script>
 </body>
 </html>

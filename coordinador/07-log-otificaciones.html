@@ -6,13 +6,8 @@
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/components.css">
 <style>
-  .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
-  .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
-  /* Mapa consolidado */
   .big-map {
     height: 480px;
     border-radius: 12px;
@@ -62,7 +57,6 @@
   .map-stats__value { font-size: 20px; font-weight: 800; color: var(--primary); }
   .map-stats__label { font-size: 10.5px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
 
-  /* Notification types */
   .notif-item {
     display: grid; grid-template-columns: auto 1fr auto; gap: 12px;
     padding: 14px 16px;
@@ -78,7 +72,6 @@
   .notif-icon--info { background: var(--primary-bg); color: var(--primary); }
   .notif-icon--success { background: #E8F5EE; color: var(--success); }
 
-  /* Compliance badges */
   .compliance-mini {
     width: 36px; height: 36px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -89,297 +82,15 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-    <div>
-      <div><div><div class="app-shell" id="d-not"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-// ═══ MONITOREO DETALLADO ═══
-function monitoreoContent(bp) {
-  const isMobile = bp === 'mobile';
-
-  const ejecutivos = [
-    { name: 'Juan Pérez', avatar: 'JP', color: 1, depto: 'Santander', comp: 85, ventas: '$ 385 M', opp: 12, leads: 8, act: 18, estancados: 2, sinActividad: 1, estado: 'green' },
-    { name: 'María García', avatar: 'MG', color: 3, depto: 'Antioquia', comp: 92, ventas: '$ 420 M', opp: 9, leads: 5, act: 22, estancados: 0, sinActividad: 0, estado: 'green' },
-    { name: 'Carlos Rodríguez', avatar: 'CR', color: 5, depto: 'Cundinamarca', comp: 62, ventas: '$ 180 M', opp: 6, leads: 10, act: 11, estancados: 4, sinActividad: 3, estado: 'yellow' },
-    { name: 'Ana Martínez', avatar: 'AM', color: 4, depto: 'Valle del Cauca', comp: 78, ventas: '$ 260 M', opp: 11, leads: 7, act: 16, estancados: 1, sinActividad: 1, estado: 'green' },
-    { name: 'Pedro Salazar', avatar: 'PS', color: 6, depto: 'Atlántico', comp: 48, ventas: '$ 95 M', opp: 5, leads: 4, act: 8, estancados: 3, sinActividad: 5, estado: 'red' },
-    { name: 'Laura Jiménez', avatar: 'LJ', color: 2, depto: 'Santander', comp: 80, ventas: '$ 215 M', opp: 8, leads: 6, act: 14, estancados: 1, sinActividad: 0, estado: 'green' },
-  ];
-
-  const colorByEstado = { green: 'var(--success)', yellow: 'var(--accent)', red: 'var(--error)' };
-  const badgeByEstado = { green: 'ganada', yellow: 'calificacion', red: 'perdida' };
-  const labelByEstado = { green: 'Al día', yellow: 'Atención', red: 'Crítico' };
-
-  if (isMobile) {
-    return `
-      <div class="content">
-        <div class="page-head">
-          <div class="page-head__title-group">
-            <div class="page-head__title">Monitoreo</div>
-            <div class="page-head__subtitle">Ejecutivos en seguimiento</div>
-          </div>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          ${ejecutivos.map(e => `
-            <div class="card" style="padding: 14px;">
-              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-                <div class="avatar avatar--sm avatar--color-${e.color}">${e.avatar}</div>
-                <div style="flex:1;">
-                  <div style="font-weight: 700; font-size: 13px; color: var(--text-primary);">${e.name}</div>
-                  <div style="font-size: 11px; color: var(--text-muted);">${e.depto}</div>
-                </div>
-                <span class="badge badge--${badgeByEstado[e.estado]}">${labelByEstado[e.estado]}</span>
-              </div>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 10px; background: var(--page-bg); border-radius: 6px;">
-                <div style="text-align: center;">
-                  <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Cumpl.</div>
-                  <div style="font-weight: 800; color: ${colorByEstado[e.estado]}; font-size: 15px;">${e.comp}%</div>
-                </div>
-                <div style="text-align: center;">
-                  <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Opp</div>
-                  <div style="font-weight: 800; font-size: 15px;">${e.opp}</div>
-                </div>
-                <div style="text-align: center;">
-                  <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Leads</div>
-                  <div style="font-weight: 800; font-size: 15px;">${e.leads}</div>
-                </div>
-                <div style="text-align: center;">
-                  <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Alert.</div>
-                  <div style="font-weight: 800; color: var(--error); font-size: 15px;">${e.estancados + e.sinActividad}</div>
-                </div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
-
-  return `
-    <div class="content">
-      <div class="page-head">
-        <div class="page-head__title-group">
-          <div class="page-head__title">Monitoreo de ejecutivos</div>
-          <div class="page-head__subtitle">Vista detallada del rendimiento · 6 ejecutivos monitoreados</div>
-        </div>
-        <div class="page-head__actions">
-          <select class="select" style="max-width: 160px;">
-            <option>Todos</option><option>Al día</option><option>Atención</option><option>Crítico</option>
-          </select>
-          <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
-        </div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(${bp === 'tablet' ? 2 : 4}, 1fr); gap: 12px; margin-bottom: 20px;">
-        <div class="stat-card">
-          <div class="stat-card__label">Al día</div>
-          <div class="stat-card__value stat-card__value--success">${ejecutivos.filter(e => e.estado === 'green').length}</div>
-          <div class="stat-card__subtext">De 6 ejecutivos</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Requieren atención</div>
-          <div class="stat-card__value stat-card__value--accent">${ejecutivos.filter(e => e.estado === 'yellow').length}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Estado crítico</div>
-          <div class="stat-card__value" style="color: var(--error);">${ejecutivos.filter(e => e.estado === 'red').length}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Total alertas</div>
-          <div class="stat-card__value">${ejecutivos.reduce((a, e) => a + e.estancados + e.sinActividad, 0)}</div>
-          <div class="stat-card__subtext">Leads + opps estancados</div>
-        </div>
-      </div>
-
-      <div class="card" style="padding: 0;">
-        <div class="table-wrapper">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Ejecutivo</th>
-                <th>Territorio</th>
-                <th style="text-align: center;">Cumplim.</th>
-                <th style="text-align: right;">Ventas mes</th>
-                <th style="text-align: center;">Opp</th>
-                <th style="text-align: center;">Leads</th>
-                <th style="text-align: center;">Actividades</th>
-                <th style="text-align: center;">Estancados</th>
-                <th style="text-align: center;">Sin activ.</th>
-                <th>Estado</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              ${ejecutivos.map(e => `
-                <tr>
-                  <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                      <div class="avatar avatar--sm avatar--color-${e.color}">${e.avatar}</div>
-                      <div style="font-weight: 600; color: var(--text-primary);">${e.name}</div>
-                    </div>
-                  </td>
-                  <td style="color: var(--text-muted); font-size: 12.5px;">${e.depto}</td>
-                  <td>
-                    <div style="display: flex; justify-content: center;">
-                      <div class="compliance-mini" style="background: conic-gradient(${colorByEstado[e.estado]} ${e.comp}%, var(--border) ${e.comp}%);">
-                        <span style="color: ${colorByEstado[e.estado]};">${e.comp}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td style="font-weight: 700; color: var(--accent); text-align: right;">${e.ventas}</td>
-                  <td style="text-align: center; font-weight: 600;">${e.opp}</td>
-                  <td style="text-align: center; font-weight: 600;">${e.leads}</td>
-                  <td style="text-align: center; font-weight: 600;">${e.act}</td>
-                  <td style="text-align: center; color: ${e.estancados > 2 ? 'var(--error)' : e.estancados > 0 ? 'var(--accent)' : 'var(--text-muted)'}; font-weight: 700;">${e.estancados}</td>
-                  <td style="text-align: center; color: ${e.sinActividad > 2 ? 'var(--error)' : e.sinActividad > 0 ? 'var(--accent)' : 'var(--text-muted)'}; font-weight: 700;">${e.sinActividad}</td>
-                  <td><span class="badge badge--${badgeByEstado[e.estado]}"><span class="dot"></span> ${labelByEstado[e.estado]}</span></td>
-                  <td><button class="table__action">${Icons.view}</button></td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// ═══ MAPA CONSOLIDADO ═══
-function mapaContent(bp) {
-  const isMobile = bp === 'mobile';
-
-  // Pines distribuidos en el mapa (posiciones aleatorias realistas)
-  const pines = [
-    { top: '22%', left: '35%', label: 'JP', class: '' },
-    { top: '30%', left: '55%', label: 'JP', class: '' },
-    { top: '45%', left: '28%', label: 'MG', class: 'accent' },
-    { top: '60%', left: '45%', label: 'AM', class: '' },
-    { top: '35%', left: '72%', label: 'JP', class: '' },
-    { top: '55%', left: '65%', label: 'LJ', class: 'success' },
-    { top: '70%', left: '32%', label: 'MG', class: 'accent' },
-    { top: '25%', left: '80%', label: 'CR', class: 'error' },
-    { top: '75%', left: '60%', label: 'AM', class: '' },
-    { top: '40%', left: '50%', label: 'MG', class: 'accent' },
-    { top: '65%', left: '78%', label: 'LJ', class: 'success' },
-    { top: '50%', left: '18%', label: 'JP', class: '' },
-  ];
-
-  const content = `
-    <div class="content">
-      <div class="page-head">
-        <div class="page-head__title-group">
-          <div class="page-head__title">Mapa de actividades</div>
-          <div class="page-head__subtitle">Visitas georreferenciadas del equipo · Últimos 7 días</div>
-        </div>
-        ${!isMobile ? `
-          <div class="page-head__actions">
-            <select class="select" style="max-width: 160px;">
-              <option>Últimos 7 días</option><option>Hoy</option><option>Últimas 24h</option>
-            </select>
-            <select class="select" style="max-width: 180px;">
-              <option>Todos los ejecutivos</option>
-            </select>
-            <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
-          </div>
-        ` : ''}
-      </div>
-
-      <!-- Filtros rápidos ejecutivos -->
-      <div class="filter-bar">
-        <button class="btn btn--ghost btn--sm" style="background: var(--primary-bg); color: var(--primary);">
-          Todos (${pines.length})
-        </button>
-        <button class="btn btn--ghost btn--sm">JP Juan P. (${pines.filter(p => p.label === 'JP').length})</button>
-        <button class="btn btn--ghost btn--sm" style="color: #C7770D;">MG María G. (${pines.filter(p => p.label === 'MG').length})</button>
-        ${!isMobile ? `
-          <button class="btn btn--ghost btn--sm">AM Ana M. (${pines.filter(p => p.label === 'AM').length})</button>
-          <button class="btn btn--ghost btn--sm">LJ Laura J. (${pines.filter(p => p.label === 'LJ').length})</button>
-          <button class="btn btn--ghost btn--sm" style="color: var(--error);">CR Carlos R. (${pines.filter(p => p.label === 'CR').length})</button>
-        ` : ''}
-      </div>
-
-      <!-- MAPA -->
-      <div class="big-map" style="height: ${isMobile ? '320px' : '480px'}; margin-bottom: 16px;">
-        <div class="map-legend">
-          <div style="font-weight: 700; font-size: 11px; color: var(--text-primary); margin-bottom: 4px;">Leyenda</div>
-          <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: var(--primary);"></span> Juan Pérez</div>
-          <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: var(--accent);"></span> María García</div>
-          ${!isMobile ? `
-            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: var(--primary);"></span> Ana Martínez</div>
-            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: var(--green-bright);"></span> Laura Jiménez</div>
-            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: var(--error);"></span> Carlos Rodríguez</div>
-          ` : ''}
-        </div>
-
-        ${!isMobile ? `
-          <div class="map-stats">
-            <div class="map-stats__item">
-              <div class="map-stats__value">${pines.length}</div>
-              <div class="map-stats__label">Visitas</div>
-            </div>
-            <div class="map-stats__item">
-              <div class="map-stats__value">5</div>
-              <div class="map-stats__label">Ejecutivos</div>
-            </div>
-            <div class="map-stats__item">
-              <div class="map-stats__value">8</div>
-              <div class="map-stats__label">Ciudades</div>
-            </div>
-          </div>
-        ` : ''}
-
-        ${pines.map(p => `
-          <div class="map-pin ${p.class ? 'map-pin--' + p.class : ''}" style="top: ${p.top}; left: ${p.left}; transform: translate(-50%, -50%);">${p.label}</div>
-        `).join('')}
-      </div>
-
-      <!-- Lista de visitas recientes -->
-      <div class="card">
-        <div class="card__header">
-          <div>
-            <div class="card__title">Visitas recientes</div>
-            <div class="card__subtitle">Últimas 5 visitas registradas con GPS</div>
-          </div>
-          <button class="btn btn--ghost btn--sm">Ver todas ${Icons.arrowRight}</button>
-        </div>
-        <div style="padding: 0;">
-          ${[
-            { exec: 'María García', color: 3, empresa: 'Tecnoagua SAS', ciudad: 'Medellín', time: 'Hace 30 min', coords: '6.2468, -75.5707' },
-            { exec: 'Juan Pérez', color: 1, empresa: 'EMPAS S.A.', ciudad: 'Piedecuesta', time: 'Hace 2h', coords: '6.9831, -73.0483' },
-            { exec: 'Laura Jiménez', color: 2, empresa: 'Acueducto Oriental', ciudad: 'Bucaramanga', time: 'Hace 4h', coords: '7.1193, -73.1227' },
-            { exec: 'Ana Martínez', color: 4, empresa: 'Palmares del Sur', ciudad: 'Cali', time: 'Hace 5h', coords: '3.4516, -76.5320' },
-            { exec: 'Juan Pérez', color: 1, empresa: 'Construcciones Andinas', ciudad: 'Bucaramanga', time: 'Hoy 09:15', coords: '7.1193, -73.1227' },
-          ].map(v => `
-            <div style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-top: 1px solid var(--border);">
-              <div class="avatar avatar--sm avatar--color-${v.color}">${v.exec.split(' ').map(x=>x[0]).join('')}</div>
-              <div style="flex: 1;">
-                <div style="font-weight: 600; font-size: 13px;"><span style="color: var(--text-primary);">${v.exec}</span> visitó <span style="color: var(--primary);">${v.empresa}</span></div>
-                <div style="font-size: 11.5px; color: var(--text-muted);">
-                  ${Icons.mapPin.replace('class="icon"','class="icon icon--xs"')} ${v.ciudad} · 
-                  <span style="font-family: monospace;">${v.coords}</span> ·
-                  ${v.time}
-                </div>
-              </div>
-              <button class="btn btn--ghost btn--sm">${Icons.view}</button>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-  `;
-  return content;
-}
-
-// ═══ LOG DE NOTIFICACIONES ═══
-function notifContent(bp) {
-  const isMobile = bp === 'mobile';
-
+function notifContent() {
   const notificaciones = [
     { tipo: 'error', icon: 'warning', title: 'Alerta: Lead estancado', subtitle: 'Lead "Proyecto acueducto EMPAS" sin contactar hace 5 días', to: 'Juan Pérez', via: 'Email', time: 'Hace 5 min', canal: 'email' },
     { tipo: 'warning', icon: 'clock', title: 'Recordatorio: Oportunidad estancada', subtitle: 'OPP-2025-0038 sin actividad hace 7 días', to: 'María García', via: 'Email', time: 'Hace 1h', canal: 'email' },
@@ -398,16 +109,13 @@ function notifContent(bp) {
           <div class="page-head__title">Log de notificaciones</div>
           <div class="page-head__subtitle">${notificaciones.length} notificaciones recientes · Últimas 48h</div>
         </div>
-        ${!isMobile ? `
-          <div class="page-head__actions">
-            <button class="btn btn--secondary btn--sm">${Icons.adjustments} Configurar alertas</button>
-            <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
-          </div>
-        ` : ''}
+        <div class="page-head__actions">
+          <button class="btn btn--secondary btn--sm">${Icons.adjustments} Configurar alertas</button>
+          <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
+        </div>
       </div>
 
-      <!-- Stats -->
-      <div style="display: grid; grid-template-columns: repeat(${isMobile ? 2 : 3}, 1fr); gap: 12px; margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;">
         <div class="stat-card">
           <div class="stat-card__icon" style="background: #FDECEA; color: var(--error);">${Icons.warning}</div>
           <div class="stat-card__label">Alertas críticas</div>
@@ -430,17 +138,15 @@ function notifContent(bp) {
         <div class="input-wrapper" style="flex:1; max-width: 320px;">
           ${Icons.search}<input class="input input--with-icon" placeholder="Buscar en notificaciones...">
         </div>
-        ${!isMobile ? `
-          <select class="select" style="max-width: 160px;">
-            <option>Todos los tipos</option>
-            <option>Alertas críticas</option>
-            <option>Advertencias</option>
-            <option>Información</option>
-          </select>
-          <select class="select" style="max-width: 180px;">
-            <option>Todos los destinatarios</option>
-          </select>
-        ` : ''}
+        <select class="select" style="max-width: 160px;">
+          <option>Todos los tipos</option>
+          <option>Alertas críticas</option>
+          <option>Advertencias</option>
+          <option>Información</option>
+        </select>
+        <select class="select" style="max-width: 180px;">
+          <option>Todos los destinatarios</option>
+        </select>
       </div>
 
       <div class="card" style="padding: 0;">
@@ -468,10 +174,13 @@ function notifContent(bp) {
   `;
 }
 
-
-document.getElementById('d-not').innerHTML = `${renderSidebar('notificaciones','coordinador')}<div class="main-area">${renderTopbar({title:'Notificaciones'})}${notifContent('desktop')}</div>`;
-document.getElementById('t-not').innerHTML = `${renderSidebar('notificaciones','coordinador')}<div class="main-area">${renderTopbar({title:'Notificaciones'})}${notifContent('tablet')}</div>`;
-document.getElementById('m-not').innerHTML = `<div class="main-area">${renderTopbar({title:'Notificaciones'})}${notifContent('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `
+  ${renderSidebar('notificaciones', 'coordinador')}
+  <div class="main-area">
+    ${renderTopbar({ title: 'Notificaciones' })}
+    ${notifContent()}
+  </div>
+`;
 </script>
 </body>
 </html>

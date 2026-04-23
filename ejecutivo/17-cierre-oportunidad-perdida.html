@@ -9,8 +9,6 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
   .modal-overlay {
     position: absolute; inset: 0;
@@ -26,10 +24,6 @@
   .modal-header {
     padding: 20px 24px; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; gap: 12px;
-  }
-  .modal-header__icon--success {
-    width: 44px; height: 44px; background: var(--success-bg); color: var(--success);
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
   }
   .modal-header__icon--error {
     width: 44px; height: 44px; background: var(--error-bg); color: var(--error);
@@ -50,7 +44,6 @@
   }
   .motivo-option:hover { border-color: var(--primary); background: var(--primary-bg); }
   .motivo-option.is-selected { border-color: var(--error); background: var(--error-bg); }
-  .motivo-option.is-selected--success { border-color: var(--success); background: var(--success-bg); }
   .motivo-option__radio {
     width: 18px; height: 18px; border-radius: 50%;
     border: 2px solid var(--border-input);
@@ -63,13 +56,6 @@
   .motivo-option.is-selected .motivo-option__radio::after {
     content: ''; width: 8px; height: 8px; border-radius: 50%;
     background: var(--error);
-  }
-  .motivo-option.is-selected--success .motivo-option__radio {
-    border-color: var(--success);
-  }
-  .motivo-option.is-selected--success .motivo-option__radio::after {
-    content: ''; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--success);
   }
 
   .confetti {
@@ -94,11 +80,10 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-    
-    <div>
-      <div><div style="height: 1000px; position: relative;" id="lost-d"></div></div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div style="height: 1000px; position: relative;">
+      <div class="app-shell" id="shell"></div>
     </div>
   </div>
 </div>
@@ -140,7 +125,7 @@ function lostModal() {
           <div class="motivo-option is-selected">
             <div class="motivo-option__radio"></div>
             <div>
-              <div style="font-weight: 600; font-size: 13.5px;">Competencia ganó licitación</div>
+              <div style="font-weight: 600; font-size: 13.5px;">Competencia ganó licitação</div>
               <div style="font-size: 11.5px; color: var(--text-muted);">Otro proveedor fue adjudicado</div>
             </div>
           </div>
@@ -148,7 +133,7 @@ function lostModal() {
             <div class="motivo-option__radio"></div>
             <div>
               <div style="font-weight: 600; font-size: 13.5px;">Cliente pospuso decisión</div>
-              <div style="font-size: 11.5px; color: var(--text-muted);">Proyecto aplazado indefinidamente</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">Projeto aplazado indefinidamente</div>
             </div>
           </div>
           <div class="motivo-option">
@@ -185,9 +170,7 @@ function lostModal() {
   `;
 }
 
-
-document.getElementById('lost-d').innerHTML = `<div class="app-shell">${lostModal()}</div>`;
-document.getElementById('lost-m').innerHTML = `<div class="app-shell is-mobile">${lostModal()}</div>`;
+document.getElementById('shell').innerHTML = `<div class="app-shell">${lostModal()}</div>`;
 </script>
 </body>
 </html>

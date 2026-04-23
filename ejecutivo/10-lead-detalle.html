@@ -9,10 +9,7 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
-  /* Modal */
   .modal-overlay {
     position: absolute; inset: 0;
     background: rgba(26,26,26,0.5);
@@ -57,19 +54,15 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-    <div>
-      <div><div><div class="app-shell" id="d-det"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-function detailContent(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-
+function detailContent() {
   const header = `
     <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;">
       <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
@@ -77,7 +70,7 @@ function detailContent(bp) {
         <span>/</span>
         <span>LEAD-2026-0234</span>
       </div>
-      <div style="display: flex; justify-content: space-between; gap: 16px; ${bp === 'mobile' ? 'flex-direction: column;' : ''}">
+      <div style="display: flex; justify-content: space-between; gap: 16px;">
         <div style="flex: 1;">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
             <span class="badge badge--calificacion"><span class="dot"></span> Interesado</span>
@@ -91,20 +84,17 @@ function detailContent(bp) {
             Constructora Bolívar · Recibido hace 7 días
           </div>
         </div>
-        ${bp !== 'mobile' ? `
-          <div style="display: flex; gap: 8px; flex-shrink: 0;">
-            <a href="https://ejemplo.com" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
-              <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
-            </a>
-            <a href="https://ejemplo.com" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
-              <button class="btn btn--secondary btn--sm">${Icons.xCircle} Descalificar</button>
-            </a>
-            <a href="16-lead-conversion.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
-              <button class="btn btn--primary btn--sm" style="background: var(--success);">${Icons.arrowRight} Convertir a oportunidad</button>
-            </a>
-            
-          </div>
-        ` : `<button class="btn btn--primary btn--block" style="background: var(--success);">${Icons.arrowRight} Convertir</button>`}
+        <div style="display: flex; gap: 8px; flex-shrink: 0;">
+          <a href="https://ejemplo.com" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
+            <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
+          </a>
+          <a href="https://ejemplo.com" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
+            <button class="btn btn--secondary btn--sm">${Icons.xCircle} Descalificar</button>
+          </a>
+          <a href="16-lead-conversion.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
+            <button class="btn btn--primary btn--sm" style="background: var(--success);">${Icons.arrowRight} Convertir a oportunidad</button>
+          </a>
+        </div>
       </div>
     </div>
   `;
@@ -252,7 +242,7 @@ function detailContent(bp) {
   return `
     <div class="content">
       ${header}
-      <div style="display: grid; gap: 16px; ${isCompact ? '' : 'grid-template-columns: 1fr 320px;'}">
+      <div style="display: grid; gap: 16px; grid-template-columns: 1fr 320px;">
         <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
           ${interesesHTML}
           ${actividadesHTML}
@@ -264,95 +254,7 @@ function detailContent(bp) {
   `;
 }
 
-function conversionModal(bp) {
-  return `
-    ${renderSidebar('leads','ejecutivo')}
-    <div class="main-area">
-      ${renderTopbar({title:'Leads'})}
-      <div class="content">
-        <div style="font-size: 13px; color: var(--text-muted);">Vista con modal de conversión superpuesta</div>
-      </div>
-    </div>
-    <div class="modal-overlay">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div style="display: flex; align-items: center;">
-            <div class="modal-header__icon">${Icons.arrowRight}</div>
-            <div>
-              <div style="font-weight: 700; font-size: 16px;">Convertir a oportunidad</div>
-              <div style="font-size: 12.5px; color: var(--text-muted);">Crea una oportunidad comercial desde este lead</div>
-            </div>
-          </div>
-          <button class="topbar__icon-btn">${Icons.close}</button>
-        </div>
-        <div class="modal-body">
-          <!-- Preview de conversión -->
-          <div class="convert-preview">
-            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">
-              ${Icons.funnel.replace('class="icon"','class="icon icon--xs"')} Lead origen
-            </div>
-            <div style="font-weight: 700;">Suministro anual de tubería</div>
-            <div style="font-size: 12px; color: var(--text-muted);">Constructora Bolívar · Score 86</div>
-          </div>
-
-          <div class="convert-arrow">${Icons.chevronDown}</div>
-
-          <div class="form-field" style="margin-bottom: 12px;">
-            <label class="form-field__label">Título de la oportunidad <span class="req">*</span></label>
-            <input class="input" value="Contrato anual - Constructora Bolívar 2026" />
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-            <div class="form-field">
-              <label class="form-field__label">Tipo</label>
-              <select class="select">
-                <option>Suministro directo</option>
-                <option>Licitación</option>
-                <option>Proyecto a medida</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label class="form-field__label">Valor estimado (COP)</label>
-              <input class="input" value="$ 560.000.000" />
-            </div>
-            <div class="form-field">
-              <label class="form-field__label">Fecha cierre estimada</label>
-              <input class="input" type="date" value="2026-05-30" />
-            </div>
-            <div class="form-field">
-              <label class="form-field__label">Estado inicial</label>
-              <select class="select">
-                <option selected>Prospección</option>
-                <option>Calificación</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="alert alert--info">
-            ${Icons.sparkles}
-            <div>
-              Se creará una nueva oportunidad y este lead se marcará como <strong>Calificado</strong>.
-              Los intereses del lead se usarán para pre-seleccionar productos.
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn--secondary">Cancelar</button>
-            <a class="btn btn--primary btn--sm"  href="16-lead-conversion.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
-              <button class="btn btn--primary btn--sm" style="background: var(--success); width: 100%;">${Icons.arrowRight} Convertir a oportunidad</button>
-            </a>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-document.getElementById('d-det').innerHTML = `${renderSidebar('leads','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Leads','Detalle']})}${detailContent('desktop')}</div>`;
-document.getElementById('t-det').innerHTML = `${renderSidebar('leads','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Leads','Detalle']})}${detailContent('tablet')}</div>`;
-document.getElementById('m-det').innerHTML = `<div class="main-area">${renderTopbar({title:'Lead', actions:`<button class="topbar__icon-btn">${Icons.pencil}</button>`})}${detailContent('mobile')}${renderMobileBottomNav('leads')}</div>`;
-
-document.getElementById('d-conv').innerHTML = `<div class="app-shell">${conversionModal('desktop')}</div>`;
-document.getElementById('m-conv').innerHTML = `<div class="app-shell is-mobile">${conversionModal('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `${renderSidebar('leads','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Leads','Detalle']})}${detailContent()}</div>`;
 </script>
 </body>
 </html>

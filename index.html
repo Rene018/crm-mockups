@@ -28,12 +28,6 @@
   .mockup-card__code { font-size: 10px; font-family: monospace; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.04em; }
   .mockup-card__title { font-size: 14px; font-weight: 700; color: #1A1A1A; margin: 4px 0 6px; }
   .mockup-card__desc { font-size: 12px; color: #6B6B6B; line-height: 1.4; }
-  .mockup-card__bp { display: flex; gap: 4px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #F4F4F5; }
-  .bp-chip { font-size: 9.5px; font-weight: 700; padding: 3px 7px; border-radius: 999px; background: var(--primary-bg); color: var(--primary); letter-spacing: 0.04em; }
-  .role-coordinador .role-header { border-left: 4px solid #F39610; }
-  .role-director .role-header { border-left: 4px solid #22C55E; }
-  .role-admin .role-header { border-left: 4px solid #A855F7; }
-  .role-auth .role-header { border-left: 4px solid #6B7280; }
   footer { margin-top: 40px; padding: 20px; text-align: center; color: #9CA3AF; font-size: 12px; }
 </style>
 </head>
@@ -42,7 +36,7 @@
   <header>
     <span class="tag">MOCKUPS HTML · v1.0</span>
     <h1>CRM Extrucol · Sistema Comercial</h1>
-    <p class="subtitle">Maquetación completa del CRM en HTML/CSS fiel al design system. Cada pantalla incluye 3 breakpoints responsive (Desktop 1440, Tablet 768, Mobile 375) renderizados como artboards tipo Figma.</p>
+    <p class="subtitle">Maquetación completa del CRM en HTML/CSS fiel al design system en Desktop 1440px.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Archivos</span><span class="stat-value">23</span></div>
       <div class="stat"><span class="stat-label">Pantallas</span><span class="stat-value accent">40+</span></div>
@@ -59,13 +53,13 @@
         <div class="mockup-card__code">01-LOGIN</div>
         <div class="mockup-card__title">Login + Recuperar contraseña</div>
         <div class="mockup-card__desc">Split layout azul + formulario. Incluye Google SSO y recuperación.</div>
-        <div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div>
+        
       </a>
       <a class="mockup-card" href="auth/02-reset-password.html" target="_blank">
         <div class="mockup-card__code">02-RESET PASS</div>
         <div class="mockup-card__title">Reset Password (post-email)</div>
         <div class="mockup-card__desc">3 vistas: Nueva contraseña con validación en vivo, éxito, y enlace expirado.</div>
-        <div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div>
+        
       </a>
     </div>
   </div>
@@ -73,47 +67,47 @@
   <div class="role-section role-ejecutivo">
     <div class="role-header"><div class="role-header__emoji">👔</div><div><div class="role-header__title">Ejecutivo Comercial</div><div class="role-header__subtitle">Rol operativo · Kanban, visitas, oportunidades, clientes</div></div></div>
     <div class="mockup-grid">
-      <a class="mockup-card" href="ejecutivo/01-dashboard.html" target="_blank"><div class="mockup-card__code">01-DASHBOARD</div><div class="mockup-card__title">Dashboard personal</div><div class="mockup-card__desc">KPIs del día, agenda, próximas actividades.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/02-oportunidades-kanban.html" target="_blank"><div class="mockup-card__code">02-KANBAN</div><div class="mockup-card__title">Oportunidades (Kanban)</div><div class="mockup-card__desc">Pipeline visual 6 estados · Filtros por sector.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/03-leads-kanban.html" target="_blank"><div class="mockup-card__code">03-LEADS</div><div class="mockup-card__title">Leads (Kanban)</div><div class="mockup-card__desc">5 estados con badges de origen (Web, FB, WhatsApp).</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/04-oportunidad-detalle.html" target="_blank"><div class="mockup-card__code">04-DETALLE</div><div class="mockup-card__title">Detalle de Oportunidad</div><div class="mockup-card__desc">Vista 360° con tabs · Cierre Ganada/Perdida.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/05-oportunidad-form.html" target="_blank"><div class="mockup-card__code">05-FORM OPP</div><div class="mockup-card__title">Formulario Nueva Oportunidad</div><div class="mockup-card__desc">Formulario seccionado con validaciones visuales.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/06-clientes.html" target="_blank"><div class="mockup-card__code">06-CLIENTES</div><div class="mockup-card__title">Clientes (Grid + Detalle)</div><div class="mockup-card__desc">Cards de empresas + detalle con tabs.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/07-actividades.html" target="_blank"><div class="mockup-card__code">07-ACTIVIDADES</div><div class="mockup-card__title">Actividades (con GPS)</div><div class="mockup-card__desc">Lista timeline + registro con GPS animado.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/08-proyectos.html" target="_blank"><div class="mockup-card__code">08-PROYECTOS</div><div class="mockup-card__title">Proyectos (Lista + Detalle)</div><div class="mockup-card__desc">Desde oportunidades ganadas · Progreso + hitos.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/09-lead-form.html" target="_blank"><div class="mockup-card__code">09-LEAD FORM</div><div class="mockup-card__title">Formulario Nuevo Lead</div><div class="mockup-card__desc">Captura con selector visual de origen (8 canales) + intereses múltiples en chips.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/10-lead-detalle-conversion.html" target="_blank"><div class="mockup-card__code">10-LEAD DETALLE</div><div class="mockup-card__title">Detalle de Lead + Conversión</div><div class="mockup-card__desc">Vista completa del lead con historial + modal de conversión a Oportunidad.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/11-cierre-oportunidad.html" target="_blank"><div class="mockup-card__code">11-CIERRE OPP</div><div class="mockup-card__title">Cierre de Oportunidad (Modales)</div><div class="mockup-card__desc">Modal Ganada (con creación auto de proyecto) + Modal Perdida (motivos obligatorios).</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="ejecutivo/12-mis-metas.html" target="_blank"><div class="mockup-card__code">12-MIS METAS</div><div class="mockup-card__title">Mis Metas Personales ✨</div><div class="mockup-card__desc">Hero con progreso circular 72%, 6 metas (3 del sistema + 3 personales), gráfico semanal, acciones recomendadas, histórico de 6 meses y sistema de logros (4 de 9).</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span></div></a>
+      <a class="mockup-card" href="ejecutivo/01-dashboard.html" target="_blank"><div class="mockup-card__code">01-DASHBOARD</div><div class="mockup-card__title">Dashboard personal</div><div class="mockup-card__desc">KPIs del día, agenda, próximas actividades.</div></a>
+      <a class="mockup-card" href="ejecutivo/02-oportunidades-kanban.html" target="_blank"><div class="mockup-card__code">02-KANBAN</div><div class="mockup-card__title">Oportunidades (Kanban)</div><div class="mockup-card__desc">Pipeline visual 6 estados · Filtros por sector.</div></a>
+      <a class="mockup-card" href="ejecutivo/03-leads-kanban.html" target="_blank"><div class="mockup-card__code">03-LEADS</div><div class="mockup-card__title">Leads (Kanban)</div><div class="mockup-card__desc">5 estados con badges de origen (Web, FB, WhatsApp).</div></a>
+      <a class="mockup-card" href="ejecutivo/04-oportunidad-detalle.html" target="_blank"><div class="mockup-card__code">04-DETALLE</div><div class="mockup-card__title">Detalle de Oportunidad</div><div class="mockup-card__desc">Vista 360° con tabs · Cierre Ganada/Perdida.</div></a>
+      <a class="mockup-card" href="ejecutivo/05-oportunidad-form.html" target="_blank"><div class="mockup-card__code">05-FORM OPP</div><div class="mockup-card__title">Formulario Nueva Oportunidad</div><div class="mockup-card__desc">Formulario seccionado con validaciones visuales.</div></a>
+      <a class="mockup-card" href="ejecutivo/06-clientes.html" target="_blank"><div class="mockup-card__code">06-CLIENTES</div><div class="mockup-card__title">Clientes (Grid + Detalle)</div><div class="mockup-card__desc">Cards de empresas + detalle con tabs.</div></a>
+      <a class="mockup-card" href="ejecutivo/07-actividades.html" target="_blank"><div class="mockup-card__code">07-ACTIVIDADES</div><div class="mockup-card__title">Actividades (con GPS)</div><div class="mockup-card__desc">Lista timeline + registro con GPS animado.</div></a>
+      <a class="mockup-card" href="ejecutivo/08-proyectos.html" target="_blank"><div class="mockup-card__code">08-PROYECTOS</div><div class="mockup-card__title">Proyectos (Lista + Detalle)</div><div class="mockup-card__desc">Desde oportunidades ganadas · Progreso + hitos.</div></a>
+      <a class="mockup-card" href="ejecutivo/09-lead-form.html" target="_blank"><div class="mockup-card__code">09-LEAD FORM</div><div class="mockup-card__title">Formulario Nuevo Lead</div><div class="mockup-card__desc">Captura con selector visual de origen (8 canales) + intereses múltiples en chips.</div></a>
+      <a class="mockup-card" href="ejecutivo/10-lead-detalle.html" target="_blank"><div class="mockup-card__code">10-LEAD DETALLE</div><div class="mockup-card__title">Detalle de Lead + Conversión</div><div class="mockup-card__desc">Vista completa del lead con historial + modal de conversión a Oportunidad.</div></a>
+      <a class="mockup-card" href="ejecutivo/11-cierre-oportunidad-ganada.html" target="_blank"><div class="mockup-card__code">11-CIERRE OPP</div><div class="mockup-card__title">Cierre de Oportunidad (Modales)</div><div class="mockup-card__desc">Modal Ganada (con creación auto de proyecto) + Modal Perdida (motivos obligatorios).</div></a>
+      <a class="mockup-card" href="ejecutivo/12-mis-metas.html" target="_blank"><div class="mockup-card__code">12-MIS METAS</div><div class="mockup-card__title">Mis Metas Personales ✨</div><div class="mockup-card__desc">Hero con progreso circular 72%, 6 metas (3 del sistema + 3 personales), gráfico semanal, acciones recomendadas, histórico de 6 meses y sistema de logros (4 de 9).</div></a>
     </div>
   </div>
 
   <div class="role-section role-coordinador">
     <div class="role-header"><div class="role-header__emoji">⭐</div><div><div class="role-header__title">Coordinador de Seguimiento</div><div class="role-header__subtitle">Rol intermedio · Supervisa ejecutivos y configura variables</div></div></div>
     <div class="mockup-grid">
-      <a class="mockup-card" href="coordinador/01-dashboard.html" target="_blank"><div class="mockup-card__code">01-DASHBOARD</div><div class="mockup-card__title">Panel de seguimiento</div><div class="mockup-card__desc">Alertas, cumplimiento circular, funnel, variables rápidas.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="coordinador/02-variables-sistema.html" target="_blank"><div class="mockup-card__code">02-VARIABLES</div><div class="mockup-card__title">Variables del sistema</div><div class="mockup-card__desc">14 variables en 4 categorías: alertas, reglas, seguridad, GPS.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="coordinador/03-monitoreo-mapa-notif.html" target="_blank"><div class="mockup-card__code">03-MONITOREO</div><div class="mockup-card__title">Monitoreo + Mapa GPS + Log Notificaciones</div><div class="mockup-card__desc">3 vistas: tabla detallada, mapa con pines, log de notif.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
+      <a class="mockup-card" href="coordinador/01-dashboard.html" target="_blank"><div class="mockup-card__code">01-DASHBOARD</div><div class="mockup-card__title">Panel de seguimiento</div><div class="mockup-card__desc">Alertas, cumplimiento circular, funnel, variables rápidas.</div></a>
+      <a class="mockup-card" href="coordinador/02-variables-sistema.html" target="_blank"><div class="mockup-card__code">02-VARIABLES</div><div class="mockup-card__title">Variables del sistema</div><div class="mockup-card__desc">14 variables en 4 categorías: alertas, reglas, seguridad, GPS.</div></a>
+      <a class="mockup-card" href="coordinador/03-monitoreo-mapa-notif.html" target="_blank"><div class="mockup-card__code">03-MONITOREO</div><div class="mockup-card__title">Monitoreo + Mapa GPS + Log Notificaciones</div><div class="mockup-card__desc">3 vistas: tabla detallada, mapa con pines, log de notif.</div></a>
     </div>
   </div>
 
   <div class="role-section role-director">
     <div class="role-header"><div class="role-header__emoji">📊</div><div><div class="role-header__title">Director Comercial</div><div class="role-header__subtitle">Rol estratégico · Analítica, forecasting, reportes</div></div></div>
     <div class="mockup-grid">
-      <a class="mockup-card" href="director/01-dashboard.html" target="_blank"><div class="mockup-card__code">01-DASHBOARD</div><div class="mockup-card__title">Dashboard Ejecutivo</div><div class="mockup-card__desc">KPIs, donut sectores, funnel, ranking con medallas, forecast Q2.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="director/02-pipeline-global.html" target="_blank"><div class="mockup-card__code">02-PIPELINE</div><div class="mockup-card__title">Pipeline Global</div><div class="mockup-card__desc">Visión agregada del pipeline, distribución por estado, tabla consolidada de 65 oportunidades.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span></div></a>
-      <a class="mockup-card" href="director/03-analisis-sectores.html" target="_blank"><div class="mockup-card__code">03-SECTORES</div><div class="mockup-card__title">Análisis por Sectores ✨</div><div class="mockup-card__desc">5 sectores con stripes de color, top clientes, tabla comparativa, insights automáticos y recomendaciones estratégicas.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span></div></a>
-      <a class="mockup-card" href="director/04-forecasting.html" target="_blank"><div class="mockup-card__code">04-FORECAST</div><div class="mockup-card__title">Forecasting Detallado ✨</div><div class="mockup-card__desc">Gráfico SVG con 4 líneas (real + 3 escenarios), escenarios trimestrales Q2/Q3, gauge de confianza 78%, top 10 oportunidades ponderadas y riesgos.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span></div></a>
-      <a class="mockup-card" href="director/05-equipo-comercial.html" target="_blank"><div class="mockup-card__code">05-EQUIPO</div><div class="mockup-card__title">Equipo Comercial</div><div class="mockup-card__desc">6 cards detalladas por ejecutivo: meta vs ventas, KPIs operativos, cumplimiento y tendencia YoY.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span></div></a>
-      <a class="mockup-card" href="director/06-reportes.html" target="_blank"><div class="mockup-card__code">06-REPORTES</div><div class="mockup-card__title">Biblioteca de Reportes</div><div class="mockup-card__desc">Reporte del mes destacado + 9 reportes por categoría + reportes recientes descargados.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span></div></a>
+      <a class="mockup-card" href="director/01-dashboard.html" target="_blank"><div class="mockup-card__code">01-DASHBOARD</div><div class="mockup-card__title">Dashboard Ejecutivo</div><div class="mockup-card__desc">KPIs, donut sectores, funnel, ranking con medallas, forecast Q2.</div></a>
+      <a class="mockup-card" href="director/02-pipeline-global.html" target="_blank"><div class="mockup-card__code">02-PIPELINE</div><div class="mockup-card__title">Pipeline Global</div><div class="mockup-card__desc">Visión agregada del pipeline, distribución por estado, tabla consolidada de 65 oportunidades.</div></a>
+      <a class="mockup-card" href="director/03-analisis-sectores.html" target="_blank"><div class="mockup-card__code">03-SECTORES</div><div class="mockup-card__title">Análisis por Sectores ✨</div><div class="mockup-card__desc">5 sectores con stripes de color, top clientes, tabla comparativa, insights automáticos y recomendaciones estratégicas.</div></a>
+      <a class="mockup-card" href="director/04-forecasting.html" target="_blank"><div class="mockup-card__code">04-FORECAST</div><div class="mockup-card__title">Forecasting Detallado ✨</div><div class="mockup-card__desc">Gráfico SVG con 4 líneas (real + 3 escenarios), escenarios trimestrales Q2/Q3, gauge de confianza 78%, top 10 oportunidades ponderadas y riesgos.</div></a>
+      <a class="mockup-card" href="director/05-equipo-comercial.html" target="_blank"><div class="mockup-card__code">05-EQUIPO</div><div class="mockup-card__title">Equipo Comercial</div><div class="mockup-card__desc">6 cards detalladas por ejecutivo: meta vs ventas, KPIs operativos, cumplimiento y tendencia YoY.</div></a>
+      <a class="mockup-card" href="director/06-reportes.html" target="_blank"><div class="mockup-card__code">06-REPORTES</div><div class="mockup-card__title">Biblioteca de Reportes</div><div class="mockup-card__desc">Reporte del mes destacado + 9 reportes por categoría + reportes recientes descargados.</div></a>
     </div>
   </div>
 
   <div class="role-section role-admin">
     <div class="role-header"><div class="role-header__emoji">🛠️</div><div><div class="role-header__title">Administrador</div><div class="role-header__subtitle">Configuración · Usuarios, catálogos, auditoría</div></div></div>
     <div class="mockup-grid">
-      <a class="mockup-card" href="admin/01-usuarios-catalogos-auditoria.html" target="_blank"><div class="mockup-card__code">01-ADMIN</div><div class="mockup-card__title">Usuarios + Catálogos + Auditoría</div><div class="mockup-card__desc">3 vistas: gestión usuarios, hub 13 catálogos, log auditoría.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
-      <a class="mockup-card" href="admin/02-forms-detalles.html" target="_blank"><div class="mockup-card__code">02-FORMS</div><div class="mockup-card__title">Form Usuario + Detalle Catálogo + Detalle Auditoría</div><div class="mockup-card__desc">3 vistas: formulario CRUD de usuario con permisos, detalle completo de catálogo con tabla, detalle de evento auditoría con diff JSON.</div><div class="mockup-card__bp"><span class="bp-chip">DESKTOP</span><span class="bp-chip">TABLET</span><span class="bp-chip">MOBILE</span></div></a>
+      <a class="mockup-card" href="admin/01-usuarios-catalogos-auditoria.html" target="_blank"><div class="mockup-card__code">01-ADMIN</div><div class="mockup-card__title">Usuarios + Catálogos + Auditoría</div><div class="mockup-card__desc">3 vistas: gestión usuarios, hub 13 catálogos, log auditoría.</div></a>
+      <a class="mockup-card" href="admin/02-forms-detalles.html" target="_blank"><div class="mockup-card__code">02-FORMS</div><div class="mockup-card__title">Form Usuario + Detalle Catálogo + Detalle Auditoría</div><div class="mockup-card__desc">3 vistas: formulario CRUD de usuario con permisos, detalle completo de catálogo con tabla, detalle de evento auditoría con diff JSON.</div></a>
     </div>
   </div>
 

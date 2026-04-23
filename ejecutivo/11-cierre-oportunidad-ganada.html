@@ -9,8 +9,6 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
   .modal-overlay {
     position: absolute; inset: 0;
@@ -31,10 +29,6 @@
     width: 44px; height: 44px; background: var(--success-bg); color: var(--success);
     border-radius: 10px; display: flex; align-items: center; justify-content: center;
   }
-  .modal-header__icon--error {
-    width: 44px; height: 44px; background: var(--error-bg); color: var(--error);
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
-  }
   .modal-body { padding: 20px 24px; }
   .modal-footer {
     padding: 16px 24px; border-top: 1px solid var(--border);
@@ -49,20 +43,12 @@
     margin-bottom: 8px;
   }
   .motivo-option:hover { border-color: var(--primary); background: var(--primary-bg); }
-  .motivo-option.is-selected { border-color: var(--error); background: var(--error-bg); }
   .motivo-option.is-selected--success { border-color: var(--success); background: var(--success-bg); }
   .motivo-option__radio {
     width: 18px; height: 18px; border-radius: 50%;
     border: 2px solid var(--border-input);
     flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-  }
-  .motivo-option.is-selected .motivo-option__radio {
-    border-color: var(--error);
-  }
-  .motivo-option.is-selected .motivo-option__radio::after {
-    content: ''; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--error);
   }
   .motivo-option.is-selected--success .motivo-option__radio {
     border-color: var(--success);
@@ -94,12 +80,11 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-    
-
-      <div><div style="height: 900px; position: relative;" id="won-d"></div></div>
-
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div style="height: 900px; position: relative;">
+      <div class="app-shell" id="shell"></div>
+    </div>
   </div>
 </div>
 
@@ -172,8 +157,7 @@ function wonModal() {
   `;
 }
 
-document.getElementById('won-d').innerHTML = `<div class="app-shell">${wonModal()}</div>`;
-document.getElementById('won-m').innerHTML = `<div class="app-shell is-mobile">${wonModal()}</div>`;
+document.getElementById('shell').innerHTML = `<div class="app-shell">${wonModal()}</div>`;
 </script>
 </body>
 </html>

@@ -8,24 +8,6 @@
 <style>
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; }
-  .bp-col { display: flex; flex-direction: column; }
-  .kanban-mobile-tabs {
-    display: flex; gap: 6px; overflow-x: auto; padding: 8px 0;
-    margin: 0 -16px; padding-left: 16px; padding-right: 16px;
-    scrollbar-width: none;
-  }
-  .kanban-mobile-tabs::-webkit-scrollbar { display: none; }
-  .kanban-mobile-tab {
-    padding: 8px 14px; border-radius: 999px; background: var(--surface);
-    border: 1px solid var(--border); font-size: 12.5px; font-weight: 600;
-    color: var(--text-secondary); white-space: nowrap;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .kanban-mobile-tab.is-active {
-    background: var(--primary); color: #fff; border-color: var(--primary);
-  }
-  .kanban-mobile-tab .dot { width: 6px; height: 6px; border-radius: 999px; }
 
   .lead-card {
     background: var(--surface);
@@ -64,15 +46,9 @@
 </style>
 </head>
 <body>
-<div>
-  <div >
-
-    <div >
-      <div >
-        <div ><div class="app-shell" id="desktop-shell"></div></div>
-      </div>
-    </div>
-
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
@@ -145,44 +121,15 @@ function renderKanbanColumn(estadoKey) {
   `;
 }
 
-function content(bp) {
-  if (bp === 'mobile') {
-    const active = 'INTERESADO';
-    return `
-      <div class="content" style="padding-top: 0;">
-        <div class="kanban-mobile-tabs">
-          ${Object.keys(leadsData).map(k => `
-            <div class="kanban-mobile-tab ${k === active ? 'is-active' : ''}">
-              <span class="dot" style="background:${leadsData[k].color}"></span>
-              ${leadsData[k].label}
-              <span style="opacity:.75;">${leadsData[k].items.length}</span>
-            </div>
-          `).join('')}
-        </div>
-        <div style="padding: 16px 0;">
-          <div class="kanban-col__list" style="gap: 10px;">
-            ${leadsData[active].items.map(l => renderLeadCard(l, active)).join('')}
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
+function content() {
   const total = Object.values(leadsData).reduce((a,b)=>a+b.items.length, 0);
-  const columnasKanban = bp === 'tablet'
-    ? `<div class="kanban" style="grid-template-columns: repeat(2, 1fr);">
-         ${renderKanbanColumn('NUEVO')}
-         ${renderKanbanColumn('CONTACTADO')}
-         ${renderKanbanColumn('INTERESADO')}
-         ${renderKanbanColumn('CALIFICADO')}
-       </div>`
-    : `<div class="kanban" style="grid-template-columns: repeat(5, 1fr);">
-         ${renderKanbanColumn('NUEVO')}
-         ${renderKanbanColumn('CONTACTADO')}
-         ${renderKanbanColumn('INTERESADO')}
-         ${renderKanbanColumn('CALIFICADO')}
-         ${renderKanbanColumn('DESCALIFICADO')}
-       </div>`;
+  const columnasKanban = `<div class="kanban" style="grid-template-columns: repeat(5, 1fr);">
+       ${renderKanbanColumn('NUEVO')}
+       ${renderKanbanColumn('CONTACTADO')}
+       ${renderKanbanColumn('INTERESADO')}
+       ${renderKanbanColumn('CALIFICADO')}
+       ${renderKanbanColumn('DESCALIFICADO')}
+     </div>`;
 
   return `
     <div class="content">
@@ -219,7 +166,6 @@ function content(bp) {
         </select>
       </div>
 
-      <!-- Alerta de leads estancados -->
       <div class="alert alert--warning" style="margin-bottom: 16px;">
         ${Icons.warning}
         <div>
@@ -233,9 +179,9 @@ function content(bp) {
   `;
 }
 
-document.getElementById('desktop-shell').innerHTML = `
+document.getElementById('shell').innerHTML = `
   ${renderSidebar('leads', 'ejecutivo')}
-  <div class="main-area">${renderTopbar({ title: 'Mis Leads' })}${content('desktop')}</div>
+  <div class="main-area">${renderTopbar({ title: 'Mis Leads' })}${content()}</div>
 `;
 </script>
 </body>

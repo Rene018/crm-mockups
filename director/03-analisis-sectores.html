@@ -6,12 +6,6 @@
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/components.css">
 <style>
-  .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
-  .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; }
-  .bp-col { display: flex; flex-direction: column; }
-
-  /* Sector cards */
   .sector-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -68,7 +62,6 @@
     margin-top: 2px;
   }
 
-  /* Chart de participación */
   .stacked-bar {
     display: flex; height: 36px;
     border-radius: 8px; overflow: hidden;
@@ -81,7 +74,6 @@
     min-width: 0;
   }
 
-  /* Tabla comparativa */
   .comparison-table {
     width: 100%; border-collapse: separate; border-spacing: 0;
   }
@@ -99,7 +91,6 @@
   .trend-up { color: var(--success); font-weight: 700; font-size: 12px; }
   .trend-down { color: var(--error); font-weight: 700; font-size: 12px; }
 
-  /* Top clientes por sector */
   .client-mini-row {
     display: flex; align-items: center; gap: 10px;
     padding: 8px 0;
@@ -109,12 +100,9 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-
-    <div>
-      <div style="height: auto; min-height: 900px;"><div class="app-shell" id="d"></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
@@ -243,7 +231,6 @@ function sectorCard(s) {
         </div>
       </div>
 
-      <!-- Top clientes -->
       <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);">
         <div style="font-size: 10px; color: var(--text-disabled); text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 8px;">Top 3 clientes</div>
         ${s.topClientes.map(c => `
@@ -280,7 +267,6 @@ function content() {
         </div>
       </div>
 
-      <!-- KPIs globales -->
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
         <div class="stat-card">
           <div class="stat-card__icon stat-card__icon--accent">${Icons.currency}</div>
@@ -308,7 +294,6 @@ function content() {
         </div>
       </div>
 
-      <!-- Participación visual -->
       <div class="card" style="margin-bottom: 16px;">
         <div class="card__header">
           <div>
@@ -336,7 +321,6 @@ function content() {
         </div>
       </div>
 
-      <!-- Grid de sectores detallados -->
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
         ${sectores.slice(0, 3).map(sectorCard).join('')}
       </div>
@@ -344,7 +328,6 @@ function content() {
         ${sectores.slice(3).map(sectorCard).join('')}
       </div>
 
-      <!-- Tabla comparativa -->
       <div class="card" style="padding: 0;">
         <div class="card__header">
           <div>
@@ -412,7 +395,6 @@ function content() {
         </div>
       </div>
 
-      <!-- Insights y recomendaciones -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
         <div class="card">
           <div class="card__header">
@@ -493,7 +475,13 @@ function content() {
   `;
 }
 
-document.getElementById('d').innerHTML = `${renderSidebar('analisis','director')}<div class="main-area">${renderTopbar({title:'Análisis por sectores'})}${content()}</div>`;
+document.getElementById('shell').innerHTML = `
+  ${renderSidebar('analisis', 'director')}
+  <div class="main-area">
+    ${renderTopbar({ title: 'Análisis por sectores' })}
+    ${content()}
+  </div>
+`;
 </script>
 </body>
 </html>

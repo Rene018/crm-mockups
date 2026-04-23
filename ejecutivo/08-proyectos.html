@@ -9,8 +9,6 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
   .proyecto-card {
     background: var(--surface); border: 1px solid var(--border);
@@ -30,10 +28,10 @@
 </style>
 </head>
 <body>
-<div>
-
-          <div class="app-shell" id="d-list"></div>
-
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
+  </div>
 </div>
 
 <script src="../shared/components.js"></script>
@@ -87,8 +85,7 @@ function proyectoCard(p) {
   `;
 }
 
-function listContent(bp) {
-  const cols = bp === 'mobile' ? 1 : bp === 'tablet' ? 1 : 2;
+function listContent() {
   return `
     <div class="content">
       <div class="page-head">
@@ -96,15 +93,12 @@ function listContent(bp) {
           <div class="page-head__title">Mis proyectos</div>
           <div class="page-head__subtitle">4 proyectos activos generados desde oportunidades ganadas</div>
         </div>
-        ${bp !== 'mobile' ? `
-          <div class="page-head__actions">
-            <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
-          </div>
-        ` : ''}
+        <div class="page-head__actions">
+          <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
+        </div>
       </div>
 
-      <!-- Stats mini -->
-      <div style="display: grid; grid-template-columns: repeat(${bp === 'desktop' ? 4 : 2}, 1fr); gap: 12px; margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
         <div class="stat-card">
           <div class="stat-card__label">En ejecución</div>
           <div class="stat-card__value" style="font-size: 22px;">2</div>
@@ -125,155 +119,22 @@ function listContent(bp) {
 
       <div class="filter-bar">
         <div class="input-wrapper" style="flex:1; max-width: 320px;">${Icons.search}<input class="input input--with-icon" placeholder="Buscar proyecto, empresa..."></div>
-        ${bp !== 'mobile' ? `
-          <select class="select" style="max-width: 180px;">
-            <option>Todos los estados</option>
-            <option>Planificación</option>
-            <option>En ejecución</option>
-            <option>Entregados</option>
-          </select>
-        ` : ''}
+        <select class="select" style="max-width: 180px;">
+          <option>Todos los estados</option>
+          <option>Planificación</option>
+          <option>En ejecución</option>
+          <option>Entregados</option>
+        </select>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: 12px;">
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
         ${proyectos.map(proyectoCard).join('')}
       </div>
     </div>
   `;
 }
 
-function detailContent(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-
-  const header = `
-    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-      <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
-        <a style="color: var(--primary); cursor: pointer;">Proyectos</a>
-        <span>/</span>
-        <span>PRY-2026-0012</span>
-      </div>
-      <div style="display: flex; gap: 16px; align-items: flex-start; ${bp === 'mobile' ? 'flex-direction: column;' : ''}">
-        <div style="flex:1;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
-            <span class="badge badge--propuesta"><span class="dot"></span> En ejecución</span>
-            <span class="badge badge--info">Agua Potable</span>
-          </div>
-          <div style="font-size: 22px; font-weight: 800; color: var(--text-primary); line-height: 1.2;">
-            Acueducto rural Piedecuesta Fase 1
-          </div>
-          <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
-            Generado desde oportunidad OPP-2025-0042 · EMPAS S.A.
-          </div>
-        </div>
-        ${bp !== 'mobile' ? `
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
-            <button class="btn btn--primary btn--sm">${Icons.check} Marcar entregado</button>
-          </div>
-        ` : ''}
-      </div>
-    </div>
-  `;
-
-  const progress = `
-    <div class="card">
-      <div class="card__header">
-        <div class="card__title">Avance del proyecto</div>
-        <span class="badge badge--propuesta">45% completado</span>
-      </div>
-      <div class="card__body">
-        <div style="margin-bottom: 16px;">
-          <div class="progress__bar" style="height: 10px;">
-            <div class="progress__fill" style="width: 45%;"></div>
-          </div>
-        </div>
-
-        <!-- Timeline del proyecto / hitos -->
-        <div class="timeline">
-          <div class="timeline__item">
-            <div class="timeline__dot timeline__dot--success"></div>
-            <div class="timeline__header">
-              <div class="timeline__title">Firma de contrato</div>
-              <span class="timeline__date">01 Mar</span>
-            </div>
-            <div class="timeline__desc">Contrato firmado y legalizado</div>
-          </div>
-          <div class="timeline__item">
-            <div class="timeline__dot timeline__dot--success"></div>
-            <div class="timeline__header">
-              <div class="timeline__title">Entrega de materiales fase 1</div>
-              <span class="timeline__date">15 Mar</span>
-            </div>
-            <div class="timeline__desc">Tubería y accesorios primera entrega</div>
-          </div>
-          <div class="timeline__item">
-            <div class="timeline__dot"></div>
-            <div class="timeline__header">
-              <div class="timeline__title">Instalación red principal</div>
-              <span class="timeline__date">En curso</span>
-            </div>
-            <div class="timeline__desc">Obra en ejecución por contratista</div>
-          </div>
-          <div class="timeline__item">
-            <div class="timeline__dot timeline__dot--muted"></div>
-            <div class="timeline__header">
-              <div class="timeline__title">Pruebas de presión</div>
-              <span class="timeline__date">15 Jun</span>
-            </div>
-            <div class="timeline__desc">Programada</div>
-          </div>
-          <div class="timeline__item">
-            <div class="timeline__dot timeline__dot--muted"></div>
-            <div class="timeline__header">
-              <div class="timeline__title">Entrega final</div>
-              <span class="timeline__date">30 Ago</span>
-            </div>
-            <div class="timeline__desc">Programada</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  const info = `
-    <div class="card">
-      <div class="card__header">
-        <div class="card__title">Información</div>
-        <button class="btn btn--ghost btn--sm">${Icons.pencil}</button>
-      </div>
-      <div class="card__body">
-        <dl class="detail-info-list">
-          <dt>Empresa</dt><dd>EMPAS S.A.</dd>
-          <dt>Sector</dt><dd>Agua Potable</dd>
-          <dt>Valor</dt><dd style="color: var(--accent); font-weight: 700;">$ 485.000.000</dd>
-          <dt>Fecha inicio</dt><dd>01 Mar 2026</dd>
-          <dt>Fecha fin</dt><dd>30 Ago 2026</dd>
-          <dt>Duración</dt><dd>6 meses</dd>
-          <dt>Responsable</dt><dd>Juan Pérez</dd>
-          <dt>Oportunidad</dt><dd><a style="color: var(--primary); cursor: pointer;">OPP-2025-0042</a></dd>
-        </dl>
-      </div>
-    </div>
-  `;
-
-  return `
-    <div class="content">
-      ${header}
-      <div style="display: grid; gap: 16px; ${isCompact ? '' : 'grid-template-columns: 1fr 320px;'}">
-        ${progress}
-        ${info}
-      </div>
-    </div>
-  `;
-}
-
-document.getElementById('d-list').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({title:'Mis Proyectos'})}${listContent('desktop')}</div>`;
-document.getElementById('t-list').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({title:'Proyectos'})}${listContent('tablet')}</div>`;
-document.getElementById('m-list').innerHTML = `<div class="main-area">${renderTopbar({title:'Proyectos', actions:`<button class="topbar__icon-btn">${Icons.search}</button>`})}${listContent('mobile')}</div>`;
-
-document.getElementById('d-det').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Proyectos','Detalle']})}${detailContent('desktop')}</div>`;
-document.getElementById('t-det').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Proyectos','Detalle']})}${detailContent('tablet')}</div>`;
-document.getElementById('m-det').innerHTML = `<div class="main-area">${renderTopbar({title:'Proyecto', actions:`<button class="topbar__icon-btn">${Icons.pencil}</button>`})}${detailContent('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({title:'Mis Proyectos'})}${listContent()}</div>`;
 </script>
 </body>
 </html>

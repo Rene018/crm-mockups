@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/components.css">
 <style>
-  .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
-  .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; }
-  .bp-col { display: flex; flex-direction: column; }
-
   .alert-row {
     display: flex; align-items: center; gap: 12px;
     padding: 12px 16px; border: 1px solid var(--error-border);
@@ -59,22 +54,15 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-
-
-    <div>
-      <div><di><div class="app-shell" id="d"></div></div></div>
-    </div>
-
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-function content(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-
+function content() {
   const statCardsHTML = `
     <div class="stat-card">
       <div class="stat-card__icon" style="background: #FDECEA; color: var(--error);">${Icons.warning}</div>
@@ -190,12 +178,12 @@ function content(bp) {
       </div>
 
       <!-- Stats -->
-      <div style="display: grid; grid-template-columns: repeat(${bp === 'desktop' ? 4 : 2}, 1fr); gap: 12px; margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
         ${statCardsHTML}
       </div>
 
       <!-- 2 columnas: Alertas + Tabla ejecutivos -->
-      <div style="display: grid; gap: 16px; ${isCompact ? '' : 'grid-template-columns: 1.2fr 1fr;'}">
+      <div style="display: grid; gap: 16px; grid-template-columns: 1.2fr 1fr;">
         <!-- Ejecutivos monitoreados -->
         <div class="card">
           <div class="card__header">
@@ -227,7 +215,7 @@ function content(bp) {
       </div>
 
       <!-- Segunda fila: Pipeline comparado + variables rápidas -->
-      <div style="display: grid; gap: 16px; margin-top: 16px; ${isCompact ? '' : 'grid-template-columns: 1fr 1fr;'}">
+      <div style="display: grid; gap: 16px; margin-top: 16px; grid-template-columns: 1fr 1fr;">
         <!-- Funnel general -->
         <div class="card">
           <div class="card__header">
@@ -285,8 +273,13 @@ function content(bp) {
   `;
 }
 
-document.getElementById('d').innerHTML = `${renderSidebar('dashboard','coordinador')}<div class="main-area">${renderTopbar({title:'Panel de seguimiento'})}${content('desktop')}</div>`;
-document.getElementById('t').innerHTML = `${renderSidebar('dashboard','coordinador')}<div class="main-area">${renderTopbar({title:'Seguimiento'})}${content('tablet')}</div>`;
+document.getElementById('shell').innerHTML = `
+  ${renderSidebar('dashboard', 'coordinador')}
+  <div class="main-area">
+    ${renderTopbar({ title: 'Panel de seguimiento' })}
+    ${content()}
+  </div>
+`;
 </script>
 </body>
 </html>

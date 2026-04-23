@@ -8,8 +8,6 @@
 <style>
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; }
-  .bp-col { display: flex; flex-direction: column; }
 
   .form-card { max-width: 672px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-sm); }
   .form-section { padding: 20px 24px; border-bottom: 1px solid var(--border); }
@@ -50,20 +48,15 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-    <div>
-      <div><div><div class="app-shell" id="d"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-function content(bp) {
-  const isMobile = bp === 'mobile';
-  const gridCols = isMobile ? '1fr' : 'repeat(2, 1fr)';
-
+function content() {
   const origenes = [
     { icon: 'globe', label: 'Página Web', sel: true },
     { icon: 'phone', label: 'Llamada' },
@@ -98,7 +91,7 @@ function content(bp) {
       <div class="form-card">
         <div class="form-section">
           <div class="form-section__title">${Icons.funnel} Información básica</div>
-          <div class="form-grid-2" style="grid-template-columns: ${gridCols};">
+          <div class="form-grid-2" style="grid-template-columns: repeat(2, 1fr);">
             <div class="form-field form-grid-full">
               <label class="form-field__label">Título del lead <span class="req">*</span></label>
               <input class="input" value="Consulta portafolio sistema de riego" />
@@ -113,7 +106,7 @@ function content(bp) {
 
         <div class="form-section">
           <div class="form-section__title">${Icons.globe} Origen del lead</div>
-          <div style="display: grid; grid-template-columns: repeat(${isMobile ? 2 : 4}, 1fr); gap: 8px;">
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
             ${origenes.map(o => `
               <div class="origen-option ${o.sel ? 'is-selected' : ''}">
                 <div class="origen-option__icon">${Icons[o.icon]}</div>
@@ -125,7 +118,7 @@ function content(bp) {
 
         <div class="form-section">
           <div class="form-section__title">${Icons.building} Empresa y contacto</div>
-          <div class="form-grid-2" style="grid-template-columns: ${gridCols};">
+          <div class="form-grid-2" style="grid-template-columns: repeat(2, 1fr);">
             <div class="form-field">
               <label class="form-field__label">Empresa</label>
               <div class="input-wrapper">
@@ -173,7 +166,7 @@ function content(bp) {
   `;
 }
 
-document.getElementById('d').innerHTML = `${renderSidebar('leads','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Leads','Nuevo']})}${content('desktop')}</div>`;
+document.getElementById('shell').innerHTML = `${renderSidebar('leads','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Leads','Nuevo']})}${content()}</div>`;
 </script>
 </body>
 </html>

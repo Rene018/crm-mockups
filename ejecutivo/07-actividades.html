@@ -9,10 +9,7 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
-  /* Activity Row */
   .activity-row {
     display: flex; align-items: center; gap: 14px;
     padding: 14px 16px; border-bottom: 1px solid var(--border);
@@ -31,7 +28,6 @@
   .activity-row__icon--visita { background: var(--accent-bg); color: #C7770D; }
   .activity-row__icon--reunion { background: var(--primary-bg); color: var(--primary); }
 
-  /* Map with pin style */
   .big-map {
     height: 280px;
     border-radius: 8px;
@@ -144,22 +140,9 @@
 </style>
 </head>
 <body>
-<div >
-  <div>
-
-
-    <!-- VISTA 1: LISTA -->
-
-    <div >
-      <div >
-        <div >
-          <div class="app-shell" id="list-desktop">
-
-          </div>
-        </div>
-      </div>
-    </div>
-
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
@@ -171,7 +154,7 @@ const actividades = [
   { tipo: 'reunion', icon: 'view', iconClass: 'reunion', titulo: 'Reunión virtual - Aguas del Valle', sub: 'Presentación inicial del portafolio', date: '3:00 PM', day: 'Hoy', badge: 'prospecto', badgeText: 'Agendada'},
   { tipo: 'email', icon: 'envelope', iconClass: 'email', titulo: 'Email - Constructora Andina', sub: 'Envío de cotización revisada según última reunión', date: '8:15 AM', day: 'Ayer', badge: 'ganada', badgeText: 'Completada'},
   { tipo: 'visita', icon: 'mapPin', iconClass: 'visita', titulo: 'Visita - Ingenio del Cauca', sub: 'Recorrido técnico por cultivo para riego', date: '2:00 PM', day: 'Mañana', badge: 'prospecto', badgeText: 'Agendada'},
-  { tipo: 'llamada', icon: 'phone', iconClass: 'llamada', titulo: 'Llamada prospección - EAAB', sub: 'Primer contacto para licitación próxima', date: '11:00 AM', day: 'Viernes', badge: 'prospecto', badgeText: 'Agendada'},
+  { tipo: 'llamada', icon: 'phone', iconClass: 'llamada', titulo: 'Llamada prospección - EAAB', sub: 'Primer contacto para licitação próxima', date: '11:00 AM', day: 'Viernes', badge: 'prospecto', badgeText: 'Agendada'},
 ];
 
 function activityRow(a) {
@@ -192,8 +175,7 @@ function activityRow(a) {
   `;
 }
 
-function listContent(bp) {
-  const isMobile = bp === 'mobile';
+function listContent() {
   return `
     <div class="content">
       <div class="page-head">
@@ -201,38 +183,33 @@ function listContent(bp) {
           <div class="page-head__title">Mis actividades</div>
           <div class="page-head__subtitle">${actividades.length} actividades · 3 completadas hoy</div>
         </div>
-        ${!isMobile ? `
-          <div class="page-head__actions">
-            <div class="tabs" style="border-bottom: none; margin-bottom: 0;">
-              <a class="tab is-active">Lista</a>
-              <a class="tab">Calendario</a>
-              <a class="tab">Mapa</a>
-            </div>
-            <a href="13-actividad-detalle.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
-             <button class="btn btn--primary btn--sm">${Icons.plus} Registrar</button>
-            </a>
-            
+        <div class="page-head__actions">
+          <div class="tabs" style="border-bottom: none; margin-bottom: 0;">
+            <a class="tab is-active">Lista</a>
+            <a class="tab">Calendario</a>
+            <a class="tab">Mapa</a>
           </div>
-        ` : ''}
+          <a href="13-actividad-detalle.html" style="text-decoration: none; color: inherit; font: inherit; cursor: pointer;">
+           <button class="btn btn--primary btn--sm">${Icons.plus} Registrar</button>
+          </a>
+        </div>
       </div>
 
       <div class="filter-bar">
         <div class="input-wrapper" style="flex:1; max-width: 320px;">${Icons.search}<input class="input input--with-icon" placeholder="Buscar actividad..."></div>
-        ${!isMobile ? `
-          <select class="select" style="max-width: 180px;">
-            <option>Todos los tipos</option>
-            <option>Llamadas</option>
-            <option>Visitas</option>
-            <option>Reuniones</option>
-            <option>Emails</option>
-          </select>
-          <select class="select" style="max-width: 180px;">
-            <option>Esta semana</option>
-            <option>Hoy</option>
-            <option>Este mes</option>
-            <option>Último trimestre</option>
-          </select>
-        ` : ''}
+        <select class="select" style="max-width: 180px;">
+          <option>Todos los tipos</option>
+          <option>Llamadas</option>
+          <option>Visitas</option>
+          <option>Reuniones</option>
+          <option>Emails</option>
+        </select>
+        <select class="select" style="max-width: 180px;">
+          <option>Esta semana</option>
+          <option>Hoy</option>
+          <option>Este mes</option>
+          <option>Último trimestre</option>
+        </select>
       </div>
 
       <div class="card" style="padding: 0;">
@@ -258,122 +235,7 @@ function listContent(bp) {
   `;
 }
 
-function gpsContent(bp) {
-  const isMobile = bp === 'mobile';
-  return `
-    <div class="content">
-      ${!isMobile ? `
-        <div class="page-head">
-          <div class="page-head__title-group">
-            <div class="page-head__title">Registrar actividad</div>
-            <div class="page-head__subtitle">Captura los datos y ubicación de tu visita</div>
-          </div>
-        </div>
-      ` : ''}
-
-      <div style="max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px;">
-        <!-- Tipo de actividad -->
-        <div class="card">
-          <div class="card__body">
-            <label class="form-field__label" style="margin-bottom: 10px; display: block;">Tipo de actividad</label>
-            <div class="activity-type-selector" style="${isMobile ? 'grid-template-columns: repeat(2, 1fr);' : ''}">
-              <div class="activity-type-card is-active">
-                <div class="activity-type-card__icon">${Icons.mapPin}</div>
-                <div class="activity-type-card__label">Visita</div>
-              </div>
-              <div class="activity-type-card">
-                <div class="activity-type-card__icon">${Icons.phone}</div>
-                <div class="activity-type-card__label">Llamada</div>
-              </div>
-              <div class="activity-type-card">
-                <div class="activity-type-card__icon">${Icons.view}</div>
-                <div class="activity-type-card__label">Reunión</div>
-              </div>
-              <div class="activity-type-card">
-                <div class="activity-type-card__icon">${Icons.envelope}</div>
-                <div class="activity-type-card__label">Email</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mapa GPS activo -->
-        <div class="card">
-          <div class="card__header">
-            <div>
-              <div class="card__title">Ubicación actual</div>
-              <div class="card__subtitle">GPS activo · Precisión ±8m</div>
-            </div>
-            <span class="badge badge--ganada"><span class="dot"></span> Conectado</span>
-          </div>
-          <div style="padding: 16px;">
-            <div class="big-map">
-              <div class="gps-indicator">GPS activo</div>
-              <div class="pulse-ring"></div>
-              <div class="map-main-pin"></div>
-              <div style="position: absolute; bottom: 12px; left: 12px; right: 12px; background: rgba(255,255,255,0.95); backdrop-filter: blur(6px); padding: 10px 14px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 10px;">
-                ${Icons.mapPin}
-                <div style="flex:1; min-width: 0;">
-                  <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Calle 29 #28-32, Piedecuesta</div>
-                  <div style="font-size: 11px; color: var(--text-muted);">Lat: 6.9831°, Lng: -73.0483°</div>
-                </div>
-                <button class="btn btn--ghost btn--sm">${Icons.gps}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Datos de la actividad -->
-        <div class="card">
-          <div class="card__header">
-            <div class="card__title">Información de la visita</div>
-          </div>
-          <div class="card__body" style="display: flex; flex-direction: column; gap: 14px;">
-            <div class="form-field">
-              <label class="form-field__label">Asunto <span class="req">*</span></label>
-              <input class="input" value="Inspección técnica para dimensionamiento" />
-            </div>
-            <div style="display: grid; grid-template-columns: ${isMobile ? '1fr' : '1fr 1fr'}; gap: 14px;">
-              <div class="form-field">
-                <label class="form-field__label">Relacionado con <span class="req">*</span></label>
-                <select class="select">
-                  <option>Oportunidad</option>
-                  <option>Lead</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label class="form-field__label">Buscar oportunidad</label>
-                <select class="select">
-                  <option>OPP-2025-0042 - Proyecto acueducto rural</option>
-                  <option>OPP-2025-0038 - Suministro anual</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-field__label">Descripción</label>
-              <textarea class="textarea" rows="3" placeholder="Describe brevemente los detalles...">Reunión con ingeniero residente y director técnico. Se revisaron especificaciones de la red, se acordó enviar propuesta revisada.</textarea>
-            </div>
-            <div class="form-field">
-              <label class="form-field__label">Resultado</label>
-              <textarea class="textarea" rows="2" placeholder="Qué se logró o acordó...">Acuerdo de entregar propuesta comercial actualizada antes del 25 de marzo.</textarea>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 10px; ${isMobile ? 'flex-direction: column;' : ''}">
-          <button class="btn btn--secondary btn--block">Cancelar</button>
-          <button class="btn btn--primary btn--block">${Icons.check} Registrar visita</button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// Render
-document.getElementById('list-desktop').innerHTML = `${renderSidebar('actividades', 'ejecutivo')}<div class="main-area">${renderTopbar({title:'Mis actividades'})}${listContent('desktop')}</div>`;
-document.getElementById('list-tablet').innerHTML = `${renderSidebar('actividades', 'ejecutivo')}<div class="main-area">${renderTopbar({title:'Actividades'})}${listContent('tablet')}</div>`;
-document.getElementById('list-mobile').innerHTML = `<div class="main-area">${renderTopbar({title:'Actividades', actions:`<button class="topbar__icon-btn">${Icons.plus}</button>`})}${listContent('mobile')}${renderMobileBottomNav('actividades')}</div>`;
-
+document.getElementById('shell').innerHTML = `${renderSidebar('actividades', 'ejecutivo')}<div class="main-area">${renderTopbar({title:'Mis actividades'})}${listContent()}</div>`;
 </script>
 </body>
 </html>

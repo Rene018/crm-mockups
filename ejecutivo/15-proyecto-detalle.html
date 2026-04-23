@@ -9,8 +9,6 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
 
   .proyecto-card {
     background: var(--surface); border: 1px solid var(--border);
@@ -30,13 +28,9 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-
-
-    <div>
-      <div><div><div class="app-shell" id="d-det"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
@@ -45,7 +39,7 @@
 const proyectos = [
   { nombre: 'Acueducto rural Piedecuesta Fase 1', empresa: 'EMPAS S.A.', estado: 'En ejecución', badge: 'propuesta', progress: 45, inicio: '01 Mar 2026', fin: '30 Ago 2026', valor: '$ 485 M', icon: 'warning' },
   { nombre: 'Suministro tubería anual 2025', empresa: 'Tecnoagua SAS', estado: 'Planificación', badge: 'prospecto', progress: 15, inicio: '15 Mar 2026', fin: '30 Dic 2026', valor: '$ 215 M', icon: 'default' },
-  { nombre: 'Ampliación red gas sector 8', empresa: 'Hidrogas SA', estado: 'Entregado', badge: 'ganada', progress: 100, inicio: '10 Ene 2026', fin: '28 Feb 2026', valor: '$ 180 M', icon: 'success' },
+  { nombre: 'Ampliación red gas sector 8', empresa: 'Hidrosas SA', estado: 'Entregado', badge: 'ganada', progress: 100, inicio: '10 Ene 2026', fin: '28 Feb 2026', valor: '$ 180 M', icon: 'success' },
   { nombre: 'Riego Palmales Fase 2', empresa: 'Palmares del Sur', estado: 'En ejecución', badge: 'propuesta', progress: 68, inicio: '01 Feb 2026', fin: '15 May 2026', valor: '$ 125 M', icon: 'warning' },
 ];
 
@@ -89,64 +83,7 @@ function proyectoCard(p) {
   `;
 }
 
-function listContent(bp) {
-  const cols = bp === 'mobile' ? 1 : bp === 'tablet' ? 1 : 2;
-  return `
-    <div class="content">
-      <div class="page-head">
-        <div class="page-head__title-group">
-          <div class="page-head__title">Mis proyectos</div>
-          <div class="page-head__subtitle">4 proyectos activos generados desde oportunidades ganadas</div>
-        </div>
-        ${bp !== 'mobile' ? `
-          <div class="page-head__actions">
-            <button class="btn btn--secondary btn--sm">${Icons.download} Exportar</button>
-          </div>
-        ` : ''}
-      </div>
-
-      <!-- Stats mini -->
-      <div style="display: grid; grid-template-columns: repeat(${bp === 'desktop' ? 4 : 2}, 1fr); gap: 12px; margin-bottom: 20px;">
-        <div class="stat-card">
-          <div class="stat-card__label">En ejecución</div>
-          <div class="stat-card__value" style="font-size: 22px;">2</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Planificación</div>
-          <div class="stat-card__value stat-card__value--accent" style="font-size: 22px;">1</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Entregados</div>
-          <div class="stat-card__value stat-card__value--success" style="font-size: 22px;">1</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Valor total</div>
-          <div class="stat-card__value stat-card__value--accent" style="font-size: 18px;">$ 1.005 M</div>
-        </div>
-      </div>
-
-      <div class="filter-bar">
-        <div class="input-wrapper" style="flex:1; max-width: 320px;">${Icons.search}<input class="input input--with-icon" placeholder="Buscar proyecto, empresa..."></div>
-        ${bp !== 'mobile' ? `
-          <select class="select" style="max-width: 180px;">
-            <option>Todos los estados</option>
-            <option>Planificación</option>
-            <option>En ejecución</option>
-            <option>Entregados</option>
-          </select>
-        ` : ''}
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: 12px;">
-        ${proyectos.map(proyectoCard).join('')}
-      </div>
-    </div>
-  `;
-}
-
-function detailContent(bp) {
-  const isCompact = bp === 'mobile' || bp === 'tablet';
-
+function detailContent() {
   const header = `
     <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
       <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
@@ -154,7 +91,7 @@ function detailContent(bp) {
         <span>/</span>
         <span>PRY-2026-0012</span>
       </div>
-      <div style="display: flex; gap: 16px; align-items: flex-start; ${bp === 'mobile' ? 'flex-direction: column;' : ''}">
+      <div style="display: flex; gap: 16px; align-items: flex-start;">
         <div style="flex:1;">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
             <span class="badge badge--propuesta"><span class="dot"></span> En ejecución</span>
@@ -167,12 +104,10 @@ function detailContent(bp) {
             Generado desde oportunidad OPP-2025-0042 · EMPAS S.A.
           </div>
         </div>
-        ${bp !== 'mobile' ? `
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
-            <button class="btn btn--primary btn--sm">${Icons.check} Marcar entregado</button>
-          </div>
-        ` : ''}
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn--secondary btn--sm">${Icons.pencil} Editar</button>
+          <button class="btn btn--primary btn--sm">${Icons.check} Marcar entregado</button>
+        </div>
       </div>
     </div>
   `;
@@ -190,7 +125,6 @@ function detailContent(bp) {
           </div>
         </div>
 
-        <!-- Timeline del proyecto / hitos -->
         <div class="timeline">
           <div class="timeline__item">
             <div class="timeline__dot timeline__dot--success"></div>
@@ -261,7 +195,7 @@ function detailContent(bp) {
   return `
     <div class="content">
       ${header}
-      <div style="display: grid; gap: 16px; ${isCompact ? '' : 'grid-template-columns: 1fr 320px;'}">
+      <div style="display: grid; gap: 16px; grid-template-columns: 1fr 320px;">
         ${progress}
         ${info}
       </div>
@@ -269,9 +203,7 @@ function detailContent(bp) {
   `;
 }
 
-document.getElementById('d-det').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Proyectos','Detalle']})}${detailContent('desktop')}</div>`;
-document.getElementById('t-det').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Proyectos','Detalle']})}${detailContent('tablet')}</div>`;
-document.getElementById('m-det').innerHTML = `<div class="main-area">${renderTopbar({title:'Proyecto', actions:`<button class="topbar__icon-btn">${Icons.pencil}</button>`})}${detailContent('mobile')}</div>`;
+document.getElementById('shell').innerHTML = `${renderSidebar('proyectos','ejecutivo')}<div class="main-area">${renderTopbar({breadcrumb:['Proyectos','Detalle']})}${detailContent()}</div>`;
 </script>
 </body>
 </html>

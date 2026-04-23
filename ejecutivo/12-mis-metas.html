@@ -9,7 +9,6 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 40px; }
 
-  /* Hero con progreso general */
   .goal-hero {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: #fff;
@@ -49,7 +48,6 @@
   .hero-ring__value { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
   .hero-ring__label { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
 
-  /* Meta cards */
   .meta-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -103,7 +101,6 @@
     transition: width 400ms ease;
   }
 
-  /* Comparativa meta semanal */
   .week-chart {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -130,7 +127,6 @@
     font-weight: 600;
   }
 
-  /* Milestones/achievements */
   .achievement-card {
     display: flex; align-items: center; gap: 14px;
     padding: 12px 14px;
@@ -153,11 +149,9 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-    <div>
-      <div style="height: auto; min-height: 900px;"><div class="app-shell" id="d"></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="canvas" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
@@ -183,7 +177,6 @@ function content() {
         </div>
       </div>
 
-      <!-- HERO de progreso general -->
       <div class="goal-hero" style="margin-bottom: 20px;">
         <div style="display: flex; align-items: center; gap: 32px; position: relative;">
           <div class="hero-ring">
@@ -219,7 +212,6 @@ function content() {
         </div>
       </div>
 
-      <!-- Metas principales (del sistema + personales) -->
       <div style="margin-bottom: 14px;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
           <div>
@@ -235,7 +227,6 @@ function content() {
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px;">
-        <!-- Meta 1: Ventas (del sistema) -->
         <div class="meta-card">
           <div class="meta-card__stripe" style="background: var(--success);"></div>
           <div class="meta-card__header">
@@ -261,7 +252,6 @@ function content() {
           </div>
         </div>
 
-        <!-- Meta 2: Oportunidades -->
         <div class="meta-card">
           <div class="meta-card__stripe" style="background: var(--primary);"></div>
           <div class="meta-card__header">
@@ -287,7 +277,6 @@ function content() {
           </div>
         </div>
 
-        <!-- Meta 3: Actividades -->
         <div class="meta-card">
           <div class="meta-card__stripe" style="background: var(--accent);"></div>
           <div class="meta-card__header">
@@ -313,7 +302,6 @@ function content() {
           </div>
         </div>
 
-        <!-- Meta 4: PERSONAL - Nuevos clientes -->
         <div class="meta-card">
           <div class="meta-card__stripe" style="background: #A855F7;"></div>
           <div class="meta-card__header">
@@ -328,7 +316,7 @@ function content() {
                 <span class="meta-current" style="color: #7C3AED;">4</span>
                 <span class="meta-target">/ 5 clientes</span>
               </div>
-              <span class="meta-pct" style="color: #7C3AED;">80%</span>
+              <span class="meta-pct" style="color: #A855F7;">80%</span>
             </div>
             <div class="meta-bar">
               <div class="meta-bar__fill" style="width: 80%; background: #A855F7;"></div>
@@ -339,7 +327,6 @@ function content() {
           </div>
         </div>
 
-        <!-- Meta 5: PERSONAL - Conversión de leads -->
         <div class="meta-card">
           <div class="meta-card__stripe" style="background: #3B82F6;"></div>
           <div class="meta-card__header">
@@ -365,7 +352,6 @@ function content() {
           </div>
         </div>
 
-        <!-- Meta 6: PERSONAL - Visitas sector Agro -->
         <div class="meta-card">
           <div class="meta-card__stripe" style="background: var(--error);"></div>
           <div class="meta-card__header">
@@ -392,9 +378,7 @@ function content() {
         </div>
       </div>
 
-      <!-- Progreso semanal + Próximas acciones -->
       <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; margin-bottom: 16px;">
-        <!-- Chart semanal -->
         <div class="card">
           <div class="card__header">
             <div>
@@ -448,7 +432,6 @@ function content() {
           </div>
         </div>
 
-        <!-- Próximas acciones recomendadas -->
         <div class="card">
           <div class="card__header">
             <div>
@@ -481,9 +464,7 @@ function content() {
         </div>
       </div>
 
-      <!-- Histórico y logros -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-        <!-- Histórico de cumplimiento -->
         <div class="card">
           <div class="card__header">
             <div>
@@ -523,7 +504,6 @@ function content() {
           </div>
         </div>
 
-        <!-- Logros / achievements -->
         <div class="card">
           <div class="card__header">
             <div>
@@ -598,7 +578,7 @@ function content() {
   `;
 }
 
-document.getElementById('d').innerHTML = `${renderSidebar('metas','ejecutivo')}<div class="main-area">${renderTopbar({title:'Mis metas'})}${content()}</div>`;
+document.getElementById('shell').innerHTML = `${renderSidebar('metas','ejecutivo')}<div class="main-area">${renderTopbar({title:'Mis metas'})}${content()}</div>`;
 </script>
 </body>
 </html>

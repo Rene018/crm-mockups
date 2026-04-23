@@ -9,8 +9,7 @@
   .canvas-title { font: 800 22px 'Roboto'; color: #1A1A1A; margin-bottom: 6px; }
   .canvas-subtitle { font: 400 14px 'Roboto'; color: #6B6B6B; margin-bottom: 24px; }
   .canvas-section-title { font: 700 15px 'Roboto'; color: #24388C; margin: 40px 0 20px; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 6px; display: inline-block; }
-  .breakpoints-row { display: flex; gap: 60px; align-items: flex-start; margin-bottom: 30px; }
-  .bp-col { display: flex; flex-direction: column; }
+
 
   .role-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
   .role-ejecutivo { background: var(--primary-bg); color: var(--primary); }
@@ -32,17 +31,17 @@
 </style>
 </head>
 <body>
-<div>
-  <div>
-    <div>
-      <div><div><div class="app-shell" id="d-u"></div></div></div>
-    </div>
+<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
+  <div class="artboard artboard--desktop" style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
-function usuariosContent(bp) {
+document.getElementById('shell').innerHTML = `${renderSidebar('usuarios','admin')}<div class="main-area">${renderTopbar({title:'Usuarios'})}${usuariosContent('desktop')}</div>`;
+</script>
+</body>
   const isMobile = bp === 'mobile';
   const usuarios = [
     { name: 'Juan Pérez', email: 'juan.perez@extrucol.com', rol: 'Ejecutivo', roleClass: 'ejecutivo', depto: 'Santander', avatar: 'JP', color: 1, activo: true, ultimo: 'Hoy, 10:30am' },
@@ -278,7 +277,7 @@ function auditoriaContent(bp) {
   `;
 }
 
-document.getElementById('d-u').innerHTML = `${renderSidebar('usuarios','admin')}<div class="main-area">${renderTopbar({title:'Usuarios'})}${usuariosContent('desktop')}</div>`;
+document.getElementById('shell').innerHTML = `${renderSidebar('usuarios','admin')}<div class="main-area">${renderTopbar({title:'Usuarios'})}${usuariosContent('desktop')}</div>`;
 </script>
 </body>
 </html>
