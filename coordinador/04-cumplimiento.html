@@ -42,11 +42,7 @@
 </style>
 </head>
 <body>
-<div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
-  <div class="canvas" style="width: 1440px;">
-    <div class="app-shell" id="shell"></div>
-  </div>
-</div>
+<div class="app-shell" id="shell"></div>
 
 <script src="../shared/components.js"></script>
 <script>
@@ -85,7 +81,7 @@ function content() {
   ];
 
   const renderCard = (e) => `
-    <div class="cumplimiento-card">
+    <div class="cumplimiento-card" onclick="window.location.href='05-ejecutivo-perfil.html?id=${e.name.split(' ').map(x=>x[0]).join('')}'" style="cursor: pointer;">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
         <div class="avatar avatar--lg avatar--color-${e.color}">${e.name.split(' ').map(x=>x[0]).join('')}</div>
         <div style="flex:1;">

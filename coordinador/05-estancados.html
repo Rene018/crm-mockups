@@ -39,15 +39,16 @@
     overflow: hidden;
   }
   .modal-header {
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    gap: 12px;
   }
+  .modal-header > :first-child { flex-shrink: 0; }
+  .modal-header > :not(:first-child):not(:last-child) { flex: 1; }
   .modal-header__icon {
-    width: 40px; height: 40px;
-    background: var(--error-bg); color: var(--error);
+    width: 40px; height: 40px; background: var(--error-bg); color: var(--error);
     border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    margin-right: 12px;
+    flex-shrink: 0;
   }
   .modal-header__icon--accent { background: var(--accent-bg); color: #C7770D; }
   .modal-header__icon--success { background: var(--success-bg); color: var(--success); }
@@ -61,27 +62,28 @@
 </head>
 <body>
 <div style="display: flex; justify-content: center; background: #F4F4F5; padding: 40px;">
-  <div class="canvas" style="width: 1440px;">
-    <div style="height: 900px; position: relative;">
-      <div class="app-shell" id="shell"></div>
-      <div id="modal-root"></div>
-    </div>
+  <div style="width: 1440px;">
+    <div class="app-shell" id="shell"></div>
   </div>
 </div>
 
 <script src="../shared/components.js"></script>
 <script>
+window.modalRoot = document.getElementById('shell');
+function openModal(html) { modalRoot.innerHTML += html; }
+function closeModal() {
+  const overlays = document.querySelectorAll('.modal-overlay');
+  if (overlays.length > 0) overlays[overlays.length - 1].remove();
+}
 function notificarModal(registro) {
   return `
     <div class="modal-overlay" id="modal-notificar">
       <div class="modal-content">
         <div class="modal-header">
-          <div style="display: flex; align-items: center;">
-            <div class="modal-header__icon">${Icons.bell}</div>
-            <div>
-              <div style="font-weight: 700; font-size: 16px;">Notificar ejecutivo</div>
-              <div style="font-size: 12.5px; color: var(--text-muted);">Enviar alerta inmediata por email y push</div>
-            </div>
+          <div class="modal-header__icon">${Icons.bell}</div>
+          <div>
+            <div style="font-weight: 700; font-size: 16px;">Notificar ejecutivo</div>
+            <div style="font-size: 12.5px; color: var(--text-muted);">Enviar alerta inmediata por email y push</div>
           </div>
           <button class="topbar__icon-btn" onclick="closeModal()">${Icons.close}</button>
         </div>
@@ -154,11 +156,11 @@ function reasignarModal(registro) {
               <label class="form-field__label">Nuevo ejecutivo <span class="req">*</span></label>
               <select class="select">
                 <option value="">Seleccionar...</option>
-                <option>Juan Pérez (JP)</option>
-                <option>María García (MG)</option>
-                <option>Carlos Rodríguez (CR)</option>
-                <option>Ana Martínez (AM)</option>
-                <option>Laura Jiménez (LJ)</option>
+                <option>Paola (PA)</option>
+                <option>Diana (DI)</option>
+                <option>Alexis (AX)</option>
+                <option>Gonzalo (GO)</option>
+                <option>Alvaro (AL)</option>
               </select>
             </div>
           </div>
@@ -198,16 +200,15 @@ window.closeModal = function() {
 
 function content() {
   const leadsEstancados = [
-    { type: 'LEAD', id: 'LEAD-234', title: 'Consulta portafolio riego', empresa: 'Agroindustria Llanera', ejec: 'Juan Pérez', color: 1, estado: 'Contactado', badge: 'propuesta', dias: 5, umbral: 3, priority: 'danger' },
-    { type: 'LEAD', id: 'LEAD-231', title: 'Cotización tubería PE', empresa: 'Constructora XYZ', ejec: 'Carlos R.', color: 3, estado: 'Nuevo', badge: 'prospecto', dias: 4, umbral: 3, priority: 'warning' },
-    { type: 'LEAD', id: 'LEAD-228', title: 'Interesado en accesorios', empresa: 'Distribuidora del Sur', ejec: 'Pedro S.', color: 5, estado: 'Nuevo', badge: 'prospecto', dias: 6, umbral: 3, priority: 'danger' },
-    { type: 'LEAD', id: 'LEAD-225', title: 'Red residencial sector 12', empresa: 'Ferretería Central', ejec: 'Carlos R.', color: 3, estado: 'Contactado', badge: 'propuesta', dias: 4, umbral: 3, priority: 'warning' },
+    { type: 'LEAD', id: 'LEAD-45825', title: 'Cotización accesorio PE para Tocancipa', empresa: 'UNION TEMPORAL BALSA 3', ejec: 'Alvaro', color: 2, estado: 'Prospección', badge: 'prospecto', dias: 6, umbral: 3, priority: 'danger' },
+    { type: 'LEAD', id: 'LEAD-45852', title: 'Cotización tubería para proyecto Turbaco', empresa: 'HyM Contratistas Sas', ejec: 'Paola', color: 5, estado: 'Contactado', badge: 'propuesta', dias: 4, umbral: 3, priority: 'warning' },
+    { type: 'LEAD', id: 'LEAD-45832', title: 'Tubería AC Clase 10 proyecto Yumbo', empresa: 'FESAT', ejec: 'Alexis', color: 3, estado: 'Nuevo', badge: 'prospecto', dias: 5, umbral: 3, priority: 'danger' },
   ];
 
   const oppEstancadas = [
-    { type: 'OPP', id: 'OPP-0038', title: 'Suministro anual tubería', empresa: 'Constructora Andina', ejec: 'María G.', color: 2, estado: 'Negociación', badge: 'negociacion', dias: 14, umbral: 7, priority: 'danger', valor: '$ 560 M' },
-    { type: 'OPP', id: 'OPP-0024', title: 'Riego Palmales Fase 2', empresa: 'Palmares del Sur', ejec: 'Juan P.', color: 1, estado: 'Propuesta', badge: 'propuesta', dias: 9, umbral: 7, priority: 'warning', valor: '$ 125 M' },
-    { type: 'OPP', id: 'OPP-0021', title: 'Ampliación red gas', empresa: 'Hidgas Oriente', ejec: 'Pedro S.', color: 5, estado: 'Calificación', badge: 'calificacion', dias: 11, umbral: 7, priority: 'danger', valor: '$ 95 M' },
+    { type: 'OPP', id: 'OPP-45894', title: 'Cotización No 1393 tubería 110mm RDE 17', empresa: 'CIVILE HIDRAULICOS', ejec: 'Paola', color: 6, estado: 'Propuesta', badge: 'propuesta', dias: 14, umbral: 7, priority: 'danger', valor: '$ 111 M' },
+    { type: 'OPP', id: 'OPP-45884', title: 'Cotización No 1248 proyecto Imola Park', empresa: 'Promotora Imola Park S.A.S', ejec: 'Paola', color: 4, estado: 'Negociación', badge: 'negociacion', dias: 9, umbral: 7, priority: 'warning', valor: '$ 92 M' },
+    { type: 'OPP', id: 'OPP-45833', title: 'Cotización No 20250626 proyecto RCI', empresa: 'FIRELINE', ejec: 'Paola', color: 2, estado: 'Negociación', badge: 'negociacion', dias: 11, umbral: 7, priority: 'danger', valor: '$ 44 M' },
   ];
 
   const allStancados = [...leadsEstancados, ...oppEstancadas].sort((a,b) => b.dias - a.dias);
@@ -250,7 +251,7 @@ function content() {
         <div class="stat-card">
           <div class="stat-card__icon stat-card__icon--accent">${Icons.briefcase}</div>
           <div class="stat-card__label">Valor en riesgo</div>
-          <div class="stat-card__value stat-card__value--accent" style="font-size: 20px;">$ 780 M</div>
+          <div class="stat-card__value stat-card__value--accent" style="font-size: 20px;">$ 247 M</div>
           <div class="stat-card__subtext">Opp. estancadas</div>
         </div>
       </div>
